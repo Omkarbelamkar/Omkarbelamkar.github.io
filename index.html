@@ -1,7 +1,55 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<body>
-<a href="https://docs.google.com/presentation/d/1RI0hG4UJmo05-WnztabdKfoeZgJ7mirLpXjvNTjaZJQ/edit#slide=id.p">This is my Presentation</a>
-</body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
+        <div class="container">
+            <h1 id="tit">Morse Code Converter</h1>
+            <label for="morseCodeInput">Enter Morse Code:</label>
+            <input type="text" id="morseCodeInput" placeholder="example ''... -- ...''">
+            <button onclick="decodeMorseCode()">Decode</button><br>
+            <input id="reset" type="button" value="Reset" onclick="location.reload();" />
+            <p id="decodedText"></p>
+        </div>
+</body>
+
+<script>
+            // Define the Morse code to English text mapping
+            const morseCodeToEnglishAlphabet = {
+            ".-": 'A', "-...": 'B', "-.-.": 'C', "-..": 'D', ".": 'E',
+            "..-.": 'F', "--.": 'G', "....": 'H', "..": 'I', ".---": 'J',
+            "-.-": 'K', ".-..": 'L', "--": 'M', "-.": 'N', "---": 'O',
+            ".--.": 'P', "--.-": 'Q', ".-.": 'R', "...": 'S', "-": 'T',
+            "..-": 'U', "...-": 'V', ".--": 'W', "-..-": 'X', "-.--": 'Y',
+            "--..": 'Z', "-----": '0', ".----": '1', "..---": '2',
+            "...--": '3', "....-": '4', ".....": '5', "-....": '6',
+            "--...": '7', "---..": '8', "----.": '9', "/": ' ' // space
+        };
+
+        // Function to decode Morse code to English text
+        function decodeMorseCode() {
+            const morseCodeInput = document.getElementById("morseCodeInput").value;
+            const words = morseCodeInput.split(' / '); // Split Morse code into words
+            let decodedText = '';
+
+            for (const word of words) {
+                const letters = word.split(' '); // Split word into letters
+                let decodedWord = '';
+
+                for (const letter of letters) {
+                    if (morseCodeToEnglishAlphabet.hasOwnProperty(letter)) {
+                        decodedWord += morseCodeToEnglishAlphabet[letter]; // Add decoded letter to word
+                    }
+                }
+
+                decodedText += decodedWord + ' '; // Add decoded word to text
+            }
+
+            document.getElementById("decodedText").innerText = "Decoded Text: " + decodedText.trim();
+        }
+</script>
 </html>
