@@ -12,6 +12,8 @@ body {
   background-color: #51e2f5;
   animation-duration: 5s;
   animation-iteration-count: infinite;
+    filter: blur(8px);
+  -webkit-filter: blur(8px);
 }
 
 /* Style the container for the Morse code converter */
