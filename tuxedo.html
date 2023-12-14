@@ -1,0 +1,48 @@
+<!-- tuxedo.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles_product.css">
+    <title>Tuxedo Collection</title>
+</head>
+
+<body>
+    <header>
+        <h1>Tuxedo Collection</h1>
+        <p><a href="index.html">Back to Categories</a></p>
+    </header>
+
+    <section id="content">
+        <div class="product">
+            <img src="assets/img/tuxedo1.jpeg" alt="Tuxedo 1" class="enlarge-image" onclick="enlargeImage('assets/img/tuxedo1.jpeg')">
+            <p>Product Description</p>
+        </div>
+        <div class="product">
+            <img src="assets/img/tuxedo2.jpeg" alt="Tuxedo 2" class="enlarge-image" onclick="enlargeImage('assets/img/tuxedo2.jpeg')">
+            <p>Product Description</p>
+        </div>
+        <div class="product">
+            <img src="assets/img/tuxedo3.jpeg" alt="Tuxedo 2" class="enlarge-image" onclick="enlargeImage('assets/img/tuxedo3.jpeg')">
+            <p>Product Description</p>
+        </div>
+        <!-- Add more product entries as needed -->
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Ramesh Tailors Collection Men's Wear Showcase</p>
+    </footer>
+
+    <!-- Enlarged Image Modal -->
+    <div id="enlarged-modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="enlarged-image" class="modal-content">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
