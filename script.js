@@ -36,8 +36,8 @@ function generateTestReport() {
 
     reportOutput.innerHTML = `
         <h2>Game Testing Report</h2>
-        <p><strong>Game name:</strong> ${gameName}</p>
-        <p><strong>Version:</strong> ${version}</p>
+        <p><strong>Game name:</strong> ${gameName}</p> <p><strong>V</strong> ${version}</p>
+        <p><strong>------------------------</strong></p>
         <p><strong>Observations:</strong> ${observationsList}</p>
         <p><strong>Defects Noticed:</strong> ${defects}</p>
     `;
