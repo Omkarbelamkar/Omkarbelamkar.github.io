@@ -31,7 +31,7 @@ function generateTestReport() {
 
     // Create a bulleted list for observations
     const observationsList = observations.length > 0 ? 
-        `<ul>${observations.map(obs => `<li>${obs}</li>`).join('')}</ul>` : 
+        `<ul>${observations.map(obs => `<li>> ${obs}</li>`).join('')}</ul>` : 
         "No observations selected.";
 
     reportOutput.innerHTML = `
@@ -69,7 +69,7 @@ function generateApprovalReport() {
 
     // Create a bulleted list for observations
     const observationsList = observations.length > 0 ? 
-        `<ul>${observations.map(obs => `<li>${obs}</li>`).join('')}</ul>` : 
+        `<ul>${observations.map(obs => `<li> > ${obs}</li>`).join('')}</ul>` : 
         "No observations selected.";
 
     approvalOutput.innerHTML = `
