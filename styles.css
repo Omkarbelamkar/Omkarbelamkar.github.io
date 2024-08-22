@@ -1,0 +1,130 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    background-image: url('background.jpg'); /* Add your background image here */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(192, 244, 107, 0.962);
+    color: #0a3040;
+    position: sticky;
+    top: 0;
+}
+
+#time {
+    font-size: 16px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 100px auto;
+    background: rgba(30, 30, 30, 0.9);
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    border: 2px solid #ffffff; /* White border for the container */
+    border-radius: 8px;
+    text-align: center;
+}
+
+h2, h3 {
+    color: #ffffff;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00695c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #004d40;
+}
+
+.form-container {
+    display: none;
+    margin-top: 30px;
+    border: 2px solid #ffffff; /* White border for the form container */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #b0b0b0;
+}
+
+input[type="text"], textarea {
+    width: calc(100% - 22px); /* Adjusted width to account for padding and border */
+    padding: 10px; /* Increased padding for better readability */
+    margin-bottom: 10px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 2px solid #ffffff; /* White border for text inputs */
+    border-radius: 4px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.observation-label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #b0b0b0;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="checkbox"] {
+    margin-left: 0; /* Ensure checkboxes are aligned with labels */
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+.report-output {
+    margin-top: 30px;
+    padding: 20px;
+    background: #2a2a2a;
+    border: 1px solid #444444;
+    border-radius: 8px;
+    color: #e0e0e0;
+}
+
+.report-output h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 5px;
+}

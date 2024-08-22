@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Defect Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+
+
+</head>
+<body>
+    <div class="header">
+        <div id="time"></div>
+        <h1>Game Defect Tracker</h1>
+    </div>
+
+    <div class="container">
+        <h2>Hello Gamer!</h2>
+
+        <button onclick="showForm('approvalForm')">First Approval Test Report</button>
+        <button onclick="showForm('testReportForm')">Second Approval Test Report</button>
+
+        <div id="testReportForm" class="form-container">
+            <h3>Second Approval Test Report</h3>
+            <form>
+                <label for="gameName">Game name:</label>
+                <input type="text" id="reportGameName" name="gameName" required><br>
+
+                <label for="version">Version:</label>
+                <input type="text" id="version" name="version" required><br>
+
+                <label>Observations:</label><br>
+                <input type="checkbox" id="reportAd" name="observations" value="Interstitial Ads are displaying">
+                <label for="reportAd" class="observation-label">Interstitial Ads are Triggering</label><br>
+                <input type="checkbox" id="reportInApp" name="observations" value="In-App purchases are working">
+                <label for="reportInApp" class="observation-label">In-App purchases are working</label><br>
+                <input type="checkbox" id="reportFunc" name="observations" value="Basic game functionalities are working">
+                <label for="reportFunc" class="observation-label">Basic game functionalities are working</label><br>
+
+                <label for="defects">Defects Noticed:</label>
+                <textarea id="reportDefects" name="defects" rows="4" cols="50"></textarea><br>
+
+                <button type="button" onclick="generateTestReport()">Generate Report</button>
+                <button type="button" id="copyTestButton" onclick="copyTestReport()" style="display:none;">Copy Report to Clipboard</button>
+            </form>
+
+            <div id="reportOutput" class="report-output"></div>
+        </div>
+
+        <div id="approvalForm" class="form-container">
+            <h3>First Approval Test Report</h3>
+            <form>
+                <label for="gameName">Game name:</label>
+                <input type="text" id="approvalGameName" name="gameName" required><br>
+
+                <label>Observations:</label><br>
+                <input type="checkbox" id="approvalFunc" name="observations" value="Game functionalities">
+                <label for="approvalFunc" class="observation-label">Game functionalities</label><br>
+                <input type="checkbox" id="approvalTitleIcon" name="observations" value="Title & Icon is displaying">
+                <label for="approvalTitleIcon" class="observation-label">Title & Icon is displaying</label><br>
+                <input type="checkbox" id="approvalRemoveButtons" name="observations" value="Disabled/removed unnecessary buttons">
+                <label for="approvalRemoveButtons" class="observation-label">Disabled/removed unnecessary buttons</label><br>
+
+                <label for="defects">Defects Noticed:</label>
+                <textarea id="approvalDefects" name="defects" rows="4" cols="50"></textarea><br>
+
+                <button type="button" onclick="generateApprovalReport()">Generate Approval Report</button>
+                <button type="button" id="copyApprovalButton" onclick="copyApprovalReport()" style="display:none;">Copy Report to Clipboard</button>
+            </form>
+
+            <div id="approvalOutput" class="report-output"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
