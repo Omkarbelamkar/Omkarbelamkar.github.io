@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Data Sorter & Filter</title>
+    <!-- Load Tailwind CSS from CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better readability and aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .container {
+            max-width: 900px;
+        }
+        /* Custom scrollbar for better feel */
+        #results-table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        #results-table-container::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        /* Style for the action buttons */
+        .action-button {
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .action-button:hover {
+            transform: translateY(-1px);
+        }
+        .action-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 min-h-screen">
+
+    <div class="container mx-auto bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700">Channel Data Filter & Strategy Tool</h1>
+            <p class="mt-2 text-gray-500">Paste your **unstructured** data below. The tool will parse the **Name**, **UserID**, and **Subscribers**, filter channels with &lt; 150 subscribers, **remove duplicates**, and **exclude channels with "Topic" in the name**, then sort the rest.</p>
+        </header>
+
+        <!-- Input Area -->
+        <section class="mb-8">
+            <label for="csv-input" class="block text-lg font-semibold text-gray-700 mb-2">Paste Unstructured Channel Data Here (One entry per line)</label>
+            <textarea id="csv-input" rows="10"
+                class="w-full p-4 border-2 border-indigo-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 shadow-inner"
+                placeholder="Example Data Format (one entry per line):&#10;Kids Tv - Preschool Learning Videos@kidstvpreschool•2.12M subscribers...&#10;Another Creator Name@creatorhandle•500K subscribers...&#10;Music - Topic@musictopicexample•1M subscribers..."
+            ></textarea>
+        </section>
+
+        <!-- Action Buttons and Status -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+            <button id="process-button" onclick="processData()"
+                class="action-button w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white font-bold rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50"
+            >
+                Process & Sort Data
+            </button>
+             <button id="strategy-button" onclick="showStrategyModal()" disabled
+                class="action-button w-full sm:w-auto px-8 py-3 bg-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-400"
+            >
+                ✨ Generate Strategy (Top 3)
+            </button>
+            <button id="download-button" onclick="downloadCSV()" disabled
+                class="action-button w-full sm:w-auto px-8 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:bg-gray-400"
+            >
+                Download New CSV
+            </button>
+        </div>
+
+        <!-- Message/Status Area -->
+        <div id="message-box" class="p-4 rounded-lg text-sm hidden" role="alert"></div>
+
+        <!-- Results Table -->
+        <section>
+            <h2 id="results-title" class="text-2xl font-bold text-gray-700 mb-4 hidden">Processed Results (Filtered & Sorted)</h2>
+            <div id="results-table-container" class="overflow-x-auto max-h-96 rounded-lg shadow-inner bg-gray-50 border border-gray-200">
+                <!-- Table will be rendered here -->
+            </div>
+            <p id="channel-count" class="mt-4 text-sm text-gray-500 hidden"></p>
+        </section>
+    </div>
+
+    <!-- Strategy Generation Modal -->
+    <div id="strategy-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-75 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 md:p-8 transform transition-all">
+            <h3 class="text-2xl font-bold text-purple-600 mb-4">✨ Channel Strategy Generator</h3>
+            <p class="mb-4 text-gray-600">The LLM will analyze the following top channels: <span id="top-channels-list" class="font-semibold text-gray-800"></span></p>
+
+            <label for="niche-input" class="block text-md font-semibold text-gray-700 mb-2">1. Main Content Niche (e.g., Gaming, Cooking, Education)</label>
+            <input type="text" id="niche-input" placeholder="e.g. Technology Reviews"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 mb-4">
+
+            <label class="block text-md font-semibold text-gray-700 mb-2">2. Generated Strategy</label>
+            <div id="strategy-output" class="min-h-32 p-4 bg-gray-50 border border-gray-200 rounded-lg whitespace-pre-wrap text-sm text-gray-800 overflow-y-auto max-h-60">
+                Strategy will appear here after generation...
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="generate-strategy-btn" onclick="executeStrategyGeneration()"
+                        class="action-button px-6 py-2 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50">
+                    Generate Analysis
+                </button>
+                <button onclick="document.getElementById('strategy-modal').classList.add('hidden')"
+                        class="action-button px-6 py-2 bg-gray-300 text-gray-800 font-semibold rounded-full hover:bg-gray-400">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let processedChannelData = []; // Stores data for CSV download
+        let topChannels = [];          // Stores the top 3 channels for LLM feature
+
+        // Gemini API Constants
+        const apiKey = ""; // Canvas will provide this key at runtime
+        const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+        const MAX_RETRIES = 5;
+
+        /**
+         * Cleans and parses a subscriber count string (e.g., "2.12M subscribers") into an integer.
+         */
+        function parseSubscribers(countString) {
+            if (!countString) return 0;
+            // Remove "subscribers" and any surrounding whitespace
+            let cleaned = countString.toLowerCase().replace('subscribers', '').trim();
+            
+            // Handle K and M abbreviations
+            if (cleaned.endsWith('m')) {
+                return Math.floor(parseFloat(cleaned.slice(0, -1)) * 1000000);
+            } else if (cleaned.endsWith('k')) {
+                return Math.floor(parseFloat(cleaned.slice(0, -1)) * 1000);
+            }
+            
+            // Clean up commas for full numbers (e.g., 100,000)
+            cleaned = cleaned.replace(/,/g, ''); 
+            const count = parseInt(cleaned, 10);
+            
+            return isNaN(count) ? 0 : count;
+        }
+
+        /**
+         * Displays a temporary message to the user.
+         */
+        function showMessage(text, type) {
+            const box = document.getElementById('message-box');
+            box.textContent = text;
+            box.className = 'p-4 rounded-lg text-sm mb-4'; // Reset classes
+            box.classList.remove('hidden');
+
+            switch (type) {
+                case 'success':
+                    box.classList.add('bg-green-100', 'text-green-800');
+                    break;
+                case 'error':
+                    box.classList.add('bg-red-100', 'text-red-800');
+                    break;
+                case 'info':
+                default:
+                    box.classList.add('bg-blue-100', 'text-blue-800');
+                    break;
+            }
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        }
+
+        /**
+         * Executes a fetch request with exponential backoff for retries.
+         */
+        async function retryFetchWithBackoff(url, options, retries = 0) {
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 429 && retries < MAX_RETRIES) {
+                    const delay = Math.pow(2, retries) * 1000;
+                    console.warn(`Rate limit hit (429). Retrying in ${delay / 1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return retryFetchWithBackoff(url, options, retries + 1);
+                }
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API request failed: ${response.status} - ${errorText}`);
+                }
+                return response.json();
+            } catch (error) {
+                if (retries < MAX_RETRIES) {
+                    const delay = Math.pow(2, retries) * 1000;
+                    console.error(`Fetch failed, retrying in ${delay / 1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return retryFetchWithBackoff(url, options, retries + 1);
+                }
+                throw new Error(`Final fetch attempt failed: ${error.message}`);
+            }
+        }
+
+
+        /**
+         * Main function to process the data: filter, sort, and display.
+         */
+        function processData() {
+            const input = document.getElementById('csv-input').value.trim();
+            const downloadButton = document.getElementById('download-button');
+            const strategyButton = document.getElementById('strategy-button');
+            const resultsTitle = document.getElementById('results-title');
+            const channelCountEl = document.getElementById('channel-count');
+
+            // --- New declarations for deduplication and "Topic" filter ---
+            const uniqueUserIds = new Set();
+            let duplicatesRemoved = 0;
+            let topicChannelsRemoved = 0;
+            // ------------------------------------------
+
+            processedChannelData = [];
+            topChannels = [];
+            resultsTitle.classList.add('hidden');
+            channelCountEl.classList.add('hidden');
+            strategyButton.disabled = true;
+
+            if (!input) {
+                showMessage("Please paste your YouTube channel data into the text area.", 'info');
+                downloadButton.disabled = true;
+                document.getElementById('results-table-container').innerHTML = '';
+                return;
+            }
+
+            // Split the input by lines
+            const lines = input.split('\n').filter(line => line.trim() !== '');
+
+            // 1. Parse and Filter
+            let channels = [];
+            let header = ['Channel Name', 'Subscribers', 'Channel UserID', 'Channel URL (Constructed)'];
+            let linesProcessed = 0;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+
+                // Check for primary delimiters: '@' and '•' (or fall back to standard dot)
+                const atIndex = line.indexOf('@');
+                const dotIndex = line.indexOf('•');
+                const subscribersKeywordIndex = line.toLowerCase().indexOf('subscribers');
+
+                if (atIndex > 0 && dotIndex > atIndex && subscribersKeywordIndex > dotIndex) {
+                    try {
+                        // 1. Name Extraction: Everything before the first '@'
+                        const name = line.substring(0, atIndex).trim();
+
+                        // --- FILTER 1: Remove "Topic" channels ---
+                        if (name.toLowerCase().includes('topic')) {
+                            topicChannelsRemoved++;
+                            continue; // Skip this channel
+                        }
+                        // ------------------------------------------
+
+                        // 2. UserID Extraction: Starts with '@' and ends before the '•'
+                        const userID = line.substring(atIndex, dotIndex).trim();
+                        
+                        // 3. Subscribers Extraction: Starts after '•' and ends after "subscribers"
+                        const subsRawText = line.substring(dotIndex + 1);
+                        const subsEndIndex = subsRawText.toLowerCase().indexOf('subscribers');
+                        const subscribersRaw = subsRawText.substring(0, subsEndIndex + 'subscribers'.length).trim();
+                        
+                        // 4. URL Generation
+                        const url = `https://youtube.com/${userID}`;
+
+                        const subscriberCount = parseSubscribers(subscribersRaw);
+                        linesProcessed++;
+
+
+                        // --- FILTER 2: Ignore channels having less than 150 Subscribers AND check for duplicates ---
+                        if (subscriberCount >= 150) {
+                            if (!uniqueUserIds.has(userID)) {
+                                channels.push({
+                                    name: name,
+                                    subscribers: subscriberCount, 
+                                    subscribersFormatted: subscribersRaw,
+                                    userID: userID,
+                                    url: url
+                                });
+                                uniqueUserIds.add(userID);
+                            } else {
+                                duplicatesRemoved++;
+                            }
+                        }
+                        // ---------------------------------------------------------------------------------------------
+
+                    } catch (e) {
+                        console.error(`Failed to parse line ${i + 1}: ${line}`, e);
+                        // Skip line if parsing fails
+                        continue;
+                    }
+                } else {
+                    // Skip lines that don't match the expected structure
+                    continue;
+                }
+            }
+
+            if (linesProcessed === 0 && channels.length === 0) {
+                 showMessage("The input data could not be parsed or was empty. Please ensure the format is: Name@UserID•Subscribers... (one entry per line) and that channels pass all filters (>= 150 subs, no duplicates, no 'Topic' in name).", 'error');
+                 downloadButton.disabled = true;
+                 document.getElementById('results-table-container').innerHTML = '';
+                 return;
+            }
+
+            // 6. Sort: Sort by subscriber count (descending)
+            channels.sort((a, b) => b.subscribers - a.subscribers);
+
+            // Store processed data for download and LLM (CSV includes constructed URL)
+            processedChannelData = [
+                header, 
+                ...channels.map(c => [c.name, c.subscribersFormatted, c.userID, c.url])
+            ];
+            topChannels = channels.slice(0, 3); // Get top 3 for strategy
+
+            // 7. Display the results
+            renderTable(channels);
+
+            if (channels.length > 0) {
+                downloadButton.disabled = false;
+                strategyButton.disabled = false;
+                resultsTitle.classList.remove('hidden');
+                channelCountEl.textContent = `Total ${channels.length} unique channels passed all filters (out of ${linesProcessed} lines parsed). ${duplicatesRemoved} duplicate(s) and ${topicChannelsRemoved} "Topic" channel(s) removed.`;
+                channelCountEl.classList.remove('hidden');
+                showMessage(`Successfully processed ${linesProcessed} lines. Found ${channels.length} unique channels with 150+ subscribers! ${duplicatesRemoved} duplicate(s) and ${topicChannelsRemoved} "Topic" channel(s) removed.`, 'success');
+            } else {
+                downloadButton.disabled = true;
+                showMessage(`Processed ${linesProcessed} lines. No unique channels met the minimum 150 subscriber threshold or passed the "Topic" channel name filter. ${duplicatesRemoved} duplicate(s) and ${topicChannelsRemoved} "Topic" channel(s) removed.`, 'info');
+            }
+        }
+
+        /**
+         * Renders the processed channel data into an HTML table.
+         */
+        function renderTable(data) {
+            const container = document.getElementById('results-table-container');
+
+            if (data.length === 0) {
+                container.innerHTML = '<p class="p-6 text-gray-500 text-center">No channels to display after filtering.</p>';
+                return;
+            }
+
+            let html = `
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-indigo-50 sticky top-0 shadow-sm">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">Channel Name</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">Subscribers</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">User ID / URL</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+            `;
+
+            data.forEach(channel => {
+                html += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${channel.name}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${channel.subscribersFormatted}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">
+                            <a href="${channel.url}" target="_blank" class="text-blue-500 hover:text-blue-700 truncate block max-w-xs">${channel.userID}</a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        }
+
+        /**
+         * Converts the processed data to a CSV string and triggers a download.
+         */
+        function downloadCSV() {
+            if (processedChannelData.length === 0) {
+                showMessage("No data to download. Please process the data first.", 'error');
+                return;
+            }
+
+            // Convert array of arrays (processedChannelData) into a CSV string
+            const csvContent = processedChannelData.map(row => {
+                // Quote fields that contain commas, newlines, or double quotes
+                return row.map(field => {
+                    if (typeof field === 'string' && (field.includes(',') || field.includes('\n') || field.includes('"'))) {
+                        // Double-up internal double quotes and wrap the whole field in quotes
+                        return `"${field.replace(/"/g, '""')}"`;
+                    }
+                    return field;
+                }).join(',');
+            }).join('\n');
+
+            // Create a Blob and trigger download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "filtered_youtube_channels.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showMessage("New CSV file downloaded successfully!", 'success');
+            } else {
+                showMessage("Your browser does not support automatic downloads. Please copy the data manually.", 'error');
+            }
+        }
+
+        // --- GEMINI API INTEGRATION FUNCTIONS ---
+
+        /**
+         * Shows the modal for generating strategy, displaying the top channel names.
+         */
+        function showStrategyModal() {
+            if (topChannels.length === 0) {
+                showMessage("Please process the data first and ensure you have channels with 150+ subscribers.", 'info');
+                return;
+            }
+            
+            const channelNames = topChannels.map(c => c.name).join(', ');
+            document.getElementById('top-channels-list').textContent = channelNames;
+            document.getElementById('strategy-output').textContent = 'Strategy will appear here after generation...';
+            document.getElementById('strategy-modal').classList.remove('hidden');
+        }
+
+        /**
+         * Calls the Gemini API to generate the content strategy.
+         */
+        async function executeStrategyGeneration() {
+            const niche = document.getElementById('niche-input').value.trim();
+            const outputEl = document.getElementById('strategy-output');
+            const generateBtn = document.getElementById('generate-strategy-btn');
+
+            if (!niche) {
+                outputEl.textContent = 'Please enter the content niche before generating.';
+                return;
+            }
+
+            generateBtn.disabled = true;
+            outputEl.innerHTML = '<div class="flex items-center justify-center h-20"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Generating insightful strategy (using Gemini 2.5 Flash)...</div>';
+
+            try {
+                // Prepare competitor data for the prompt
+                const topChannelsInfo = topChannels.map((c, index) =>
+                    // Use the constructed URL for the LLM prompt
+                    `${index + 1}. ${c.name} (${c.subscribersFormatted} subs, URL: ${c.url})` 
+                ).join('\n');
+
+                const userQuery = `Niche: ${niche}\n\nTop Competitors:\n${topChannelsInfo}\n\nBased on these competitors and the niche, provide a concise content strategy summary (under 250 words), focusing on content gaps, potential differentiation, and key monetization ideas for an aspiring creator.`;
+
+                const systemPrompt = "You are a world-class YouTube growth and content strategist. Generate a brief, insightful, and actionable content strategy summary structured with clear bullet points for 'Content Focus' and 'Monetization'. Use grounded information if possible.";
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    tools: [{ google_search: {} }], // Enable Google Search for grounded advice
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                };
+
+                const responseJson = await retryFetchWithBackoff(`${apiUrl}?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const candidate = responseJson.candidates?.[0];
+                let generatedText = "Could not generate strategy. Please try again.";
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    generatedText = candidate.content.parts[0].text;
+                    
+                    // Extract and display grounding sources if available
+                    let sourcesHtml = '';
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        const sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title)
+                            .slice(0, 3); // Limit to top 3 sources
+
+                        if (sources.length > 0) {
+                            sourcesHtml = '<div class="mt-4 pt-2 border-t border-gray-100"><p class="text-xs text-gray-500 font-semibold mb-1">Grounding Sources:</p>';
+                            sources.forEach((s) => {
+                                sourcesHtml += `<p class="text-xs text-gray-500 truncate"><a href="${s.uri}" target="_blank" class="hover:text-blue-600">${s.title || s.uri}</a></p>`;
+                            });
+                            sourcesHtml += '</div>';
+                        }
+                    }
+                    outputEl.innerHTML = `<p class="whitespace-pre-wrap">${generatedText}</p>${sourcesHtml}`;
+
+                } else {
+                    outputEl.textContent = 'Received an unexpected response from the API. Check console for details.';
+                }
+
+            } catch (error) {
+                console.error('Gemini API Error:', error);
+                outputEl.textContent = `Error generating strategy: ${error.message}. Please ensure your network is connected and try again.`;
+            } finally {
+                generateBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
