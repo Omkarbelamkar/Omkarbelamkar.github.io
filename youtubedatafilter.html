@@ -6,11 +6,23 @@
     <title>YouTube Channel Data Sorter & Filter</title>
     <!-- Load Tailwind CSS from CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind to use 'class' strategy for dark mode (i.e., looks for 'dark' class on <html>)
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    // Custom colors if needed, but sticking to defaults for simplicity
+                }
+            }
+        }
+    </script>
     <style>
         /* Custom styles for better readability and aesthetics */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f9fc;
+            /* Ensure smooth transition on theme change */
+            transition: background-color 0.3s ease; 
         }
         .container {
             max-width: 900px;
@@ -18,6 +30,10 @@
         /* Custom scrollbar for better feel */
         #results-table-container::-webkit-scrollbar {
             height: 8px;
+        }
+        /* Dark mode scrollbar styling */
+        .dark #results-table-container::-webkit-scrollbar-thumb {
+            background: #4b5563; /* dark gray */
         }
         #results-table-container::-webkit-scrollbar-thumb {
             background: #d1d5db;
@@ -35,19 +51,33 @@
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 min-h-screen">
+<!-- Apply light/dark mode background color to the body -->
+<body class="p-4 sm:p-8 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-    <div class="container mx-auto bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
+    <div class="container mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100 dark:border-gray-700">
+        
+        <!-- Theme Toggle Switch -->
+        <div class="flex justify-end mb-4 -mt-2">
+            <label for="theme-toggle" class="relative inline-flex items-center cursor-pointer">
+                <!-- LIGHT label -->
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 mr-2">LIGHT</span>
+                <input type="checkbox" id="theme-toggle" class="sr-only peer" onclick="toggleTheme()">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+                <!-- DARK label -->
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 ml-2">DARK</span>
+            </label>
+        </div>
+
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700">Channel Data Filter & Strategy Tool</h1>
-            <p class="mt-2 text-gray-500">Paste your **unstructured** data below. The tool will parse the **Name**, **UserID**, and **Subscribers**, filter channels with &lt; 150 subscribers, **remove duplicates**, and **exclude channels with "Topic" in the name**, then sort the rest.</p>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 dark:text-indigo-400">Channel Data Filter & Strategy Tool</h1>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">Paste your **unstructured** data below. The tool will parse the **Name**, **UserID**, and **Subscribers**, filter channels with &lt; 150 subscribers, **remove duplicates**, and **exclude channels with "Topic" in the name**, then sort the rest.</p>
         </header>
 
         <!-- Input Area -->
         <section class="mb-8">
-            <label for="csv-input" class="block text-lg font-semibold text-gray-700 mb-2">Paste Unstructured Channel Data Here (One entry per line)</label>
+            <label for="csv-input" class="block text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Paste Unstructured Channel Data Here (One entry per line)</label>
             <textarea id="csv-input" rows="10"
-                class="w-full p-4 border-2 border-indigo-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 shadow-inner"
+                class="w-full p-4 border-2 border-indigo-200 dark:border-indigo-600 dark:bg-gray-700 dark:text-gray-50 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 shadow-inner"
                 placeholder="Example Data Format (one entry per line):&#10;Kids Tv - Preschool Learning Videos@kidstvpreschool•2.12M subscribers...&#10;Another Creator Name@creatorhandle•500K subscribers...&#10;Music - Topic@musictopicexample•1M subscribers..."
             ></textarea>
         </section>
@@ -72,30 +102,30 @@
         </div>
 
         <!-- Message/Status Area -->
-        <div id="message-box" class="p-4 rounded-lg text-sm hidden" role="alert"></div>
+        <div id="message-box" class="p-4 rounded-lg text-sm mb-4 hidden" role="alert"></div>
 
         <!-- Results Table -->
         <section>
-            <h2 id="results-title" class="text-2xl font-bold text-gray-700 mb-4 hidden">Processed Results (Filtered & Sorted)</h2>
-            <div id="results-table-container" class="overflow-x-auto max-h-96 rounded-lg shadow-inner bg-gray-50 border border-gray-200">
+            <h2 id="results-title" class="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-4 hidden">Processed Results (Filtered & Sorted)</h2>
+            <div id="results-table-container" class="overflow-x-auto max-h-96 rounded-lg shadow-inner bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
                 <!-- Table will be rendered here -->
             </div>
-            <p id="channel-count" class="mt-4 text-sm text-gray-500 hidden"></p>
+            <p id="channel-count" class="mt-4 text-sm text-gray-500 dark:text-gray-400 hidden"></p>
         </section>
     </div>
 
     <!-- Strategy Generation Modal -->
     <div id="strategy-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-75 flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 md:p-8 transform transition-all">
-            <h3 class="text-2xl font-bold text-purple-600 mb-4">✨ Channel Strategy Generator</h3>
-            <p class="mb-4 text-gray-600">The LLM will analyze the following top channels: <span id="top-channels-list" class="font-semibold text-gray-800"></span></p>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg p-6 md:p-8 transform transition-all">
+            <h3 class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-4">✨ Channel Strategy Generator</h3>
+            <p class="mb-4 text-gray-600 dark:text-gray-300">The LLM will analyze the following top channels: <span id="top-channels-list" class="font-semibold text-gray-800 dark:text-gray-100"></span></p>
 
-            <label for="niche-input" class="block text-md font-semibold text-gray-700 mb-2">1. Main Content Niche (e.g., Gaming, Cooking, Education)</label>
+            <label for="niche-input" class="block text-md font-semibold text-gray-700 dark:text-gray-200 mb-2">1. Main Content Niche (e.g., Gaming, Cooking, Education)</label>
             <input type="text" id="niche-input" placeholder="e.g. Technology Reviews"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 mb-4">
+                   class="w-full p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-50 rounded-lg focus:ring-purple-500 focus:border-purple-500 mb-4">
 
-            <label class="block text-md font-semibold text-gray-700 mb-2">2. Generated Strategy</label>
-            <div id="strategy-output" class="min-h-32 p-4 bg-gray-50 border border-gray-200 rounded-lg whitespace-pre-wrap text-sm text-gray-800 overflow-y-auto max-h-60">
+            <label class="block text-md font-semibold text-gray-700 dark:text-gray-200 mb-2">2. Generated Strategy</label>
+            <div id="strategy-output" class="min-h-32 p-4 bg-gray-50 dark:bg-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 rounded-lg whitespace-pre-wrap text-sm text-gray-800 overflow-y-auto max-h-60">
                 Strategy will appear here after generation...
             </div>
 
@@ -121,6 +151,55 @@
         const apiKey = ""; // Canvas will provide this key at runtime
         const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
         const MAX_RETRIES = 5;
+
+        // --- Theme Toggling Logic (New) ---
+
+        /**
+         * Loads the user's preferred theme from local storage or sets system default.
+         */
+        function loadTheme() {
+            // Use document.documentElement (the <html> element) for the 'dark' class
+            const htmlElement = document.documentElement;
+            const toggle = document.getElementById('theme-toggle');
+
+            // 1. Check local storage first
+            const savedTheme = localStorage.getItem('theme');
+            
+            // 2. Check if system preference is dark (only used if no saved theme)
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Determine initial theme state: Dark if saved as 'dark' OR if no save and system prefers dark
+            const isDarkMode = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+
+            if (isDarkMode) {
+                htmlElement.classList.add('dark');
+                if (toggle) toggle.checked = true;
+            } else {
+                htmlElement.classList.remove('dark');
+                if (toggle) toggle.checked = false;
+            }
+        }
+
+        /**
+         * Toggles the theme between light and dark, saving the preference.
+         */
+        function toggleTheme() {
+            const htmlElement = document.documentElement;
+            // The classList.toggle returns true if 'dark' is now present, false if it was removed
+            const isDark = htmlElement.classList.toggle('dark');
+            
+            if (isDark) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Apply theme immediately on script load
+        loadTheme();
+
+        // --- End Theme Toggling Logic ---
+
 
         /**
          * Cleans and parses a subscriber count string (e.g., "2.12M subscribers") into an integer.
@@ -150,19 +229,20 @@
         function showMessage(text, type) {
             const box = document.getElementById('message-box');
             box.textContent = text;
-            box.className = 'p-4 rounded-lg text-sm mb-4'; // Reset classes
+            // Use classList for dynamic dark mode styling
+            box.className = 'p-4 rounded-lg text-sm mb-4'; 
             box.classList.remove('hidden');
 
             switch (type) {
                 case 'success':
-                    box.classList.add('bg-green-100', 'text-green-800');
+                    box.classList.add('bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-200');
                     break;
                 case 'error':
-                    box.classList.add('bg-red-100', 'text-red-800');
+                    box.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900', 'dark:text-red-200');
                     break;
                 case 'info':
                 default:
-                    box.classList.add('bg-blue-100', 'text-blue-800');
+                    box.classList.add('bg-blue-100', 'text-blue-800', 'dark:bg-blue-900', 'dark:text-blue-200');
                     break;
             }
 
@@ -211,11 +291,9 @@
             const resultsTitle = document.getElementById('results-title');
             const channelCountEl = document.getElementById('channel-count');
 
-            // --- New declarations for deduplication and "Topic" filter ---
             const uniqueUserIds = new Set();
             let duplicatesRemoved = 0;
             let topicChannelsRemoved = 0;
-            // ------------------------------------------
 
             processedChannelData = [];
             topChannels = [];
@@ -346,24 +424,24 @@
             }
 
             let html = `
-                <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-indigo-50 sticky top-0 shadow-sm">
+                <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-600">
+                    <thead class="bg-indigo-50 dark:bg-gray-700 sticky top-0 shadow-sm">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">Channel Name</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">Subscribers</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 uppercase tracking-wider">User ID / URL</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">Channel Name</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">Subscribers</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">User ID / URL</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             `;
 
             data.forEach(channel => {
                 html += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${channel.name}</td>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${channel.subscribersFormatted}</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${channel.name}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">${channel.subscribersFormatted}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm">
-                            <a href="${channel.url}" target="_blank" class="text-blue-500 hover:text-blue-700 truncate block max-w-xs">${channel.userID}</a>
+                            <a href="${channel.url}" target="_blank" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 truncate block max-w-xs">${channel.userID}</a>
                         </td>
                     </tr>
                 `;
@@ -492,9 +570,9 @@
                             .slice(0, 3); // Limit to top 3 sources
 
                         if (sources.length > 0) {
-                            sourcesHtml = '<div class="mt-4 pt-2 border-t border-gray-100"><p class="text-xs text-gray-500 font-semibold mb-1">Grounding Sources:</p>';
+                            sourcesHtml = '<div class="mt-4 pt-2 border-t border-gray-100 dark:border-gray-600"><p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-1">Grounding Sources:</p>';
                             sources.forEach((s) => {
-                                sourcesHtml += `<p class="text-xs text-gray-500 truncate"><a href="${s.uri}" target="_blank" class="hover:text-blue-600">${s.title || s.uri}</a></p>`;
+                                sourcesHtml += `<p class="text-xs text-gray-500 dark:text-gray-400 truncate"><a href="${s.uri}" target="_blank" class="hover:text-blue-600 dark:hover:text-blue-300">${s.title || s.uri}</a></p>`;
                             });
                             sourcesHtml += '</div>';
                         }
