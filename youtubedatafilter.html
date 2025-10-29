@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Channel Data Sorter & Filter</title>
+    <!-- Add Favicon: A chart icon representing data analysis -->
+    <link rel="icon" href="https://placehold.co/32x32/4f46e5/ffffff?text=D" type="image/png"> 
     <!-- Load Tailwind CSS from CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -50,7 +52,6 @@
             transform: translateY(0);
         }
     </style>
-    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <!-- Apply light/dark mode background color to the body -->
 <body class="p-4 sm:p-8 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -84,19 +85,19 @@
         </section>
 
         <!-- Action Buttons and Status -->
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
             <button id="process-button" onclick="processData()"
-                class="action-button w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white font-bold rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50"
+                class="action-button w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white font-bold rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50 whitespace-nowrap"
             >
                 Process & Sort Data
             </button>
              <button id="strategy-button" onclick="showStrategyModal()" disabled
-                class="action-button w-full sm:w-auto px-8 py-3 bg-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-400"
+                class="action-button w-full sm:w-auto px-8 py-3 bg-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-400 whitespace-nowrap"
             >
                 ✨ Generate Strategy (Top 3)
             </button>
             <button id="download-button" onclick="downloadCSV()" disabled
-                class="action-button w-full sm:w-auto px-8 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:bg-gray-400"
+                class="action-button w-full sm:w-auto px-8 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:bg-gray-400 whitespace-nowrap"
             >
                 Download New CSV
             </button>
