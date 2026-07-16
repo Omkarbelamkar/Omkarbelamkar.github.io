@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth scroll-pt-24">
+<html lang="en" class="scroll-smooth scroll-pt-24 dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sansmaran - Spiritual Wellness App User Manual</title>
     
-    <!-- Google Fonts: Poppins for a modern, clean look -->
+    <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
@@ -14,451 +14,472 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Tailwind Config for Custom Theme -->
+    <style>
+        /* Dynamic Theme Variables */
+        :root {
+            --color-bg: #F9FAFB;
+            --color-card: #FFFFFF;
+            --color-card-hover: #F3F4F6;
+            --color-text-main: #1F2937;
+            --color-text-muted: #6B7280;
+            --color-border: #E5E7EB;
+            --color-accent: #D97706;
+            --color-accent-light: #FEF3C7;
+            --color-nav-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Dark Theme Variables */
+        .dark {
+            --color-bg: #140E0A;        
+            --color-card: #261A13;      
+            --color-card-hover: #31231A;
+            --color-text-main: #F3EAE1; 
+            --color-text-muted: #A69B91;
+            --color-border: #3A291E;    
+            --color-accent: #FCA311;    
+            --color-accent-light: #4A331A;
+            --color-nav-bg: rgba(38, 26, 19, 0.95);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+        
+        .screenshot {
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--color-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-height: 480px;
+            width: auto;
+        }
+        .screenshot:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+        }
+
+        body { transition: background-color 0.3s ease, color 0.3s ease; }
+        .theme-transition { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+    </style>
+
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], },
                     colors: {
-                        app: {
-                            bg: '#1A110A',       // Deep warm brown
-                            card: '#291D16',     // Lighter brown for cards
-                            cardHover: '#36271E',
-                            accent: '#FCA311',   // Spiritual Gold/Orange
-                            accentHover: '#E5930F',
-                            text: '#E8DCC8',     // Soft cream text
-                            muted: '#A89F91'     // Muted cream
+                        theme: {
+                            bg: 'var(--color-bg)',
+                            card: 'var(--color-card)',
+                            cardHover: 'var(--color-card-hover)',
+                            text: 'var(--color-text-main)',
+                            muted: 'var(--color-text-muted)',
+                            border: 'var(--color-border)',
+                            accent: 'var(--color-accent)',
+                            accentLight: 'var(--color-accent-light)',
+                            navBg: 'var(--color-nav-bg)'
                         }
                     }
                 }
             }
         }
     </script>
-    
-    <style>
-        /* Custom Scrollbar for a premium feel */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1A110A;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FCA311;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #E5930F;
-        }
-        
-        .screenshot {
-            border-radius: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-            border: 4px solid #36271E;
-            transition: transform 0.3s ease;
-        }
-        .screenshot:hover {
-            transform: translateY(-5px);
-        }
-    </style>
 </head>
-<body class="bg-app-bg text-app-text font-sans antialiased selection:bg-app-accent selection:text-app-bg">
+<body class="bg-theme-bg text-theme-text font-sans antialiased selection:bg-theme-accent selection:text-white transition-colors duration-300">
 
     <!-- Top Navigation Bar -->
-    <nav class="fixed top-0 w-full bg-app-card/95 backdrop-blur border-b border-white/5 z-50">
+    <nav class="fixed top-0 w-full bg-theme-navBg backdrop-blur border-b border-theme-border z-50 shadow-sm transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-app-accent rounded-full flex items-center justify-center text-app-bg">
+                    <div class="w-10 h-10 bg-theme-accent rounded-full flex items-center justify-center text-white shadow-md">
                         <i data-lucide="flower-2" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-white leading-tight">Sansmaran</h1>
-                        <p class="text-xs text-app-accent tracking-widest uppercase">User Manual</p>
+                        <h1 class="text-xl font-bold text-theme-text leading-tight theme-transition">Sansmaran</h1>
+                        <p class="text-[10px] text-theme-accent font-semibold tracking-widest uppercase" data-i18n="nav_subtitle">User Manual</p>
                     </div>
                 </div>
-                <div class="hidden md:flex items-center gap-4">
-                    <a href="#home" class="text-sm font-medium hover:text-app-accent transition">Overview</a>
-                    <a href="#sadhana" class="text-sm font-medium hover:text-app-accent transition">Sadhana</a>
-                    <a href="#habits" class="text-sm font-medium hover:text-app-accent transition">Habits</a>
-                    <a href="#media" class="text-sm font-medium hover:text-app-accent transition">Media</a>
-                </div>
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-app-text hover:text-white focus:outline-none">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                
+                <div class="flex items-center gap-4 lg:gap-6">
+                    <!-- Desktop Menu -->
+                    <div class="hidden lg:flex items-center gap-6">
+                        <a href="#home" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_overview">Overview</a>
+                        <a href="#sadhana" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_sadhana">Sadhana</a>
+                        <a href="#wellness" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_wellness">Wellness</a>
+                        <a href="#media" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_media">Media</a>
+                        <a href="#community" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_community">Community</a>
+                        <a href="#tools" class="text-sm font-medium text-theme-muted hover:text-theme-accent transition" data-i18n="nav_tools">Tools</a>
+                    </div>
+
+                    <!-- Translation Dropdown -->
+                    <div class="relative">
+                        <button id="translate-btn" class="p-2 rounded-lg bg-theme-card border border-theme-border text-theme-text hover:bg-theme-cardHover transition-colors focus:outline-none flex items-center gap-2">
+                            <i data-lucide="languages" class="w-5 h-5 text-theme-accent"></i>
+                            <span class="text-sm font-medium hidden sm:block" id="current-lang">English</span>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div id="translate-menu" class="hidden absolute right-0 mt-2 w-48 bg-theme-card border border-theme-border rounded-xl shadow-lg py-2 z-50 theme-transition">
+                            <button class="lang-option w-full text-left px-4 py-2 text-sm text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition-colors" data-lang="en">English (Default)</button>
+                            <button class="lang-option w-full text-left px-4 py-2 text-sm text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition-colors" data-lang="mr">मराठी (Marathi)</button>
+                            <button class="lang-option w-full text-left px-4 py-2 text-sm text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition-colors" data-lang="kn">ಕನ್ನಡ (Kannada)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-theme-card border border-theme-border text-theme-text hover:bg-theme-cardHover transition-colors focus:outline-none">
+                        <i id="theme-toggle-dark-icon" data-lucide="moon" class="w-5 h-5 hidden"></i>
+                        <i id="theme-toggle-light-icon" data-lucide="sun" class="w-5 h-5 hidden"></i>
                     </button>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="lg:hidden flex items-center">
+                        <button id="mobile-menu-btn" class="text-theme-muted hover:text-theme-accent focus:outline-none">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu (Hidden by default) -->
-    <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-app-card border-b border-white/5 z-40 md:hidden">
-        <div class="px-4 py-4 space-y-2 flex flex-col">
-            <a href="#nav" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Navigation</a>
-            <a href="#sadhana" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Sadhana</a>
-            <a href="#habits" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Habits & Wellness</a>
-            <a href="#media" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Media Library</a>
-            <a href="#community" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Community</a>
-            <a href="#tools" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Utility Tools</a>
-            <a href="#profile" class="mobile-link text-sm font-medium hover:text-app-accent py-2">Profile & Support</a>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-theme-card shadow-lg border-b border-theme-border z-40 lg:hidden theme-transition">
+        <div class="px-4 py-4 space-y-1 flex flex-col">
+            <a href="#home" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_overview">Overview</a>
+            <a href="#sadhana" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_sadhana">Sadhana</a>
+            <a href="#wellness" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_wellness">Wellness</a>
+            <a href="#media" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_media">Media</a>
+            <a href="#community" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_community">Community</a>
+            <a href="#tools" class="mobile-link text-sm font-medium text-theme-text hover:text-theme-accent py-3 border-b border-theme-border" data-i18n="nav_tools">Tools</a>
         </div>
     </div>
 
     <!-- Main Layout -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 flex flex-col md:flex-row gap-8">
         
-        <!-- Sidebar Navigation (Desktop) -->
+        <!-- Sidebar Navigation -->
         <aside class="hidden md:block w-64 flex-shrink-0">
-            <div class="sticky top-24 space-y-1">
-                <p class="px-3 text-xs font-semibold text-app-muted uppercase tracking-wider mb-4">Content Guide</p>
-                <a href="#home" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="home" class="inline w-4 h-4 mr-2 mb-1"></i> Introduction</a>
-                <a href="#nav" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="layout-dashboard" class="inline w-4 h-4 mr-2 mb-1"></i> Architecture</a>
-                <a href="#sadhana" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="activity" class="inline w-4 h-4 mr-2 mb-1"></i> Daily Sadhana</a>
-                <a href="#habits" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="calendar-check" class="inline w-4 h-4 mr-2 mb-1"></i> Habits & Wellness</a>
-                <a href="#media" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="play-circle" class="inline w-4 h-4 mr-2 mb-1"></i> Media Library</a>
-                <a href="#community" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="users" class="inline w-4 h-4 mr-2 mb-1"></i> Community & Events</a>
-                <a href="#tools" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="wrench" class="inline w-4 h-4 mr-2 mb-1"></i> Utility Tools</a>
-                <a href="#profile" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="user" class="inline w-4 h-4 mr-2 mb-1"></i> Profile & Donations</a>
+            <div class="sticky top-24 space-y-2">
+                <p class="px-3 text-xs font-bold text-theme-muted uppercase tracking-wider mb-4" data-i18n="sidebar_guide">Content Guide</p>
+                <a href="#home" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="home" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_overview">Overview</span></a>
+                <a href="#sadhana" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="activity" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_sadhana">Sadhana</span></a>
+                <a href="#wellness" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="heart-pulse" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_wellness">Wellness</span></a>
+                <a href="#media" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="play-circle" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_media">Media</span></a>
+                <a href="#community" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="users" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_community">Community</span></a>
+                <a href="#shop" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="shopping-bag" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_shop">Shop</span></a>
+                <a href="#tools" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="wrench" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_tools">Tools</span></a>
+                <a href="#profile" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-theme-text hover:bg-theme-accentLight hover:text-theme-accent transition theme-transition"><i data-lucide="settings" class="inline w-4 h-4 mr-2 mb-1"></i> <span data-i18n="nav_profile">Profile</span></a>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="flex-1 min-w-0 space-y-16">
+        <main class="flex-1 min-w-0 space-y-20">
 
             <!-- Hero Section -->
             <section id="home" class="scroll-mt-24">
-                <div class="bg-app-card rounded-3xl p-8 border border-white/5 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                        <i data-lucide="flower-2" class="w-64 h-64 text-app-accent"></i>
+                <div class="bg-theme-card rounded-3xl p-8 border border-theme-border shadow-sm relative overflow-hidden theme-transition">
+                    <div class="absolute -top-10 -right-10 p-8 opacity-[0.03] dark:opacity-5 pointer-events-none">
+                        <i data-lucide="flower-2" class="w-80 h-80 text-theme-accent"></i>
                     </div>
-                    <h1 class="text-4xl font-bold text-white mb-4 relative z-10">Welcome to Sansmaran</h1>
-                    <p class="text-lg text-app-muted leading-relaxed max-w-2xl relative z-10 mb-8">
-                        Your dedicated digital companion for spiritual growth, personal wellness, and mindful living. This manual is designed to guide you seamlessly through the app's diverse ecosystem.
+                    <h1 class="text-4xl font-bold text-theme-text mb-4 relative z-10 theme-transition" data-i18n="welcome_title">Welcome to Sansmaran</h1>
+                    <p class="text-lg text-theme-muted leading-relaxed max-w-2xl relative z-10 mb-10 theme-transition" data-i18n="welcome_desc">
+                        Your dedicated digital companion for spiritual growth, personal wellness, and mindful living. Explore the app's diverse ecosystem.
                     </p>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
-                        <div>
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-semibold text-theme-text theme-transition" data-i18n="home_dash">The Home Dashboard</h3>
                             <ul class="space-y-4">
                                 <li class="flex items-start gap-3">
-                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
-                                    <span>Track your daily spiritual disciplines (Sadhana).</span>
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-theme-accent shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <strong class="block text-theme-text theme-transition" data-i18n="home_grid_title">Today's Overview Grid</strong>
+                                        <span class="text-sm text-theme-muted theme-transition" data-i18n="home_grid_desc">Displays immediate operational stats: Total Japas, weekly habit progress, library media counts, and scheduled events.</span>
+                                    </div>
                                 </li>
                                 <li class="flex items-start gap-3">
-                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
-                                    <span>Access a rich repository of media and scriptures.</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
-                                    <span>Connect with community circles and volunteer.</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
-                                    <span>Utilize specialized inner-growth and utility tools.</span>
+                                    <i data-lucide="droplets" class="w-6 h-6 text-blue-500 shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <strong class="block text-theme-text theme-transition" data-i18n="home_water_title">Integrated Water Tracker</strong>
+                                        <span class="text-sm text-theme-muted theme-transition" data-i18n="home_water_desc">Quickly log hydration intervals right on your dashboard using instant +150ml, +250ml, or +500ml increments.</span>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
-                        <div class="flex justify-center">
-                            <img src="6248927354554094798.jpg" alt="Home Dashboard" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Home+Screen'">
+                        <div class="flex justify-center md:justify-end">
+                            <img src="assets/6248927354554094795.jpg" alt="Home Dashboard" class="screenshot">
                         </div>
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
-
-            <!-- Section 1: Navigation Architecture -->
-            <section id="nav">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="smartphone" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">The Navigation Architecture</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <div class="space-y-6">
-                        <p class="text-app-muted">Sansmaran uses an intuitive, modern layout designed to keep your spiritual metrics clear and scannable.</p>
-                        
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2"><i data-lucide="menu" class="w-5 h-5 text-app-accent"></i> Global Sidebar Menu</h3>
-                            <p class="text-sm mb-4">Accessible via the hamburger icon (☰) on the top-left of the home page. It contains the exhaustive feature list.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">About Gurudev</span>
-                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Challenges</span>
-                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Clubs</span>
-                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Volunteering</span>
-                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Tools</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5 text-app-accent"></i> Primary Bottom Navigation Bar</h3>
-                            <p class="text-sm mb-4">Your quick-access hubs to switch between core spaces instantly.</p>
-                            <p class="text-xs text-app-accent font-mono bg-app-bg p-3 rounded-lg text-center">
-                                Home | Habits | Media | Events | Forum | Shop | Profile
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex justify-center">
-                        <img src="6248927354554094781.jpg" alt="Sidebar Navigation" class="screenshot max-h-[550px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Sidebar'">
-                    </div>
-                </div>
-            </section>
-
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
             <!-- Section 2: Sadhana -->
-            <section id="sadhana">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="sun" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">1. Today's Practice & Daily Sadhana</h2>
+            <section id="sadhana" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="sun" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec1_title">1. Daily Sadhana & Meditation</h2>
                 </div>
                 
-                <p class="text-app-muted mb-8">Your primary workspace centers around tracking your spiritual disciplines. Sansmaran simplifies monitoring daily targets to keep you consistently connected to your goals.</p>
+                <p class="text-theme-muted mb-10 text-lg theme-transition" data-i18n="sec1_desc">Your primary workspace centers around tracking your spiritual disciplines and deepening mental stillness.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                    <div class="flex justify-center order-2 md:order-1">
-                         <img src="6248927354554094788.jpg" alt="Japa Tracker" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Japa+Tracker'">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    <div class="flex justify-center gap-4">
+                         <img src="assets/6248927354554094788.jpg" alt="Japa Tracker" class="screenshot">
+                         <img src="assets/6248927354554094783.jpg" alt="Sadhana Overview" class="screenshot hidden sm:block">
                     </div>
-                    <div class="space-y-6 order-1 md:order-2">
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">The Home Dashboard</h3>
-                            <ul class="space-y-3 text-sm">
-                                <li><strong class="text-app-accent">Personalized Greeting:</strong> Real-time greetings and scripture quotes.</li>
-                                <li><strong class="text-app-accent">Today's Sadhana:</strong> Total Japas logged against your target.</li>
-                                <li><strong class="text-app-accent">My Goals:</strong> Progress of your weekly target habits.</li>
-                            </ul>
+                    <div class="space-y-6">
+                        <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                            <h3 class="text-lg font-semibold text-theme-text mb-3 flex items-center gap-2 theme-transition">
+                                <i data-lucide="hash" class="w-5 h-5 text-theme-accent"></i> <span data-i18n="sec1_japa">Tracking Japa</span>
+                            </h3>
+                            <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec1_japa_desc">The highly precise counter logs sub-metrics. Tap the big [+] and [-] buttons during your session.</p>
                         </div>
-                        
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Tracking Japa & Routine</h3>
-                            <p class="text-sm mb-4">Tap "Daily Sadhana" on your home screen to open the counter page. Use the big [+] and [-] buttons for precision tracking (e.g., "On Mala 1, Bead 0 / 108").</p>
-                            <div class="border-t border-white/10 pt-4 mt-4">
-                                <h4 class="text-sm font-semibold mb-2">Today's Practice Checklist</h4>
-                                <div class="grid grid-cols-2 gap-2 text-xs">
-                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Meditation</span>
-                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Spiritual Reading</span>
-                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Mantra Chanting</span>
-                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Seva (Service)</span>
-                                </div>
+
+                        <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                            <h3 class="text-lg font-semibold text-theme-text mb-3 flex items-center gap-2 theme-transition">
+                                <i data-lucide="list-checks" class="w-5 h-5 text-green-500"></i> <span data-i18n="sec1_checklist">Practice Checklist</span>
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3 text-sm text-theme-text font-medium bg-theme-bg p-4 rounded-xl theme-transition">
+                                <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> <span data-i18n="feat_med">Meditation</span></span>
+                                <span class="flex items-center gap-2"><i data-lucide="circle" class="w-4 h-4 text-theme-muted"></i> <span data-i18n="feat_read">Reading</span></span>
+                                <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> <span data-i18n="feat_mantra">Mantra</span></span>
+                                <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> <span data-i18n="feat_seva">Seva</span></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
             <!-- Section 3: Habits & Wellness -->
-            <section id="habits">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="heart-pulse" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">2. Habit Formation & Physical Wellness</h2>
+            <section id="wellness" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="heart-pulse" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec2_title">2. Habits & Physical Wellness</h2>
                 </div>
                 
-                <p class="text-app-muted mb-8">True spiritual wellness respects the integration of mind, spirit, and body. The Habits and Exercise panels keep your lifestyle rhythm balanced.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                    <div class="flex justify-center"><img src="assets/6248927354554094797.jpg" alt="Habits Tracker" class="screenshot w-full object-cover"></div>
+                    <div class="flex justify-center"><img src="assets/6248927354554094785.jpg" alt="Exercise Library" class="screenshot w-full object-cover"></div>
+                    <div class="flex justify-center hidden lg:flex"><img src="assets/6248927354554094784.jpg" alt="BMI Tracker" class="screenshot w-full object-cover"></div>
+                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-3">Habits Tracker</h3>
-                            <p class="text-sm mb-4">Log essential traits on a recurring weekly timeline:</p>
-                            <ul class="space-y-2 text-sm">
-                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>ध्यान (Meditation)</span> <i data-lucide="activity" class="w-4 h-4 text-app-muted"></i></li>
-                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>व्यायाम (Minimal Exercise)</span> <i data-lucide="dumbbell" class="w-4 h-4 text-app-muted"></i></li>
-                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>सात्त्विक आहार (Sattvic Diet)</span> <i data-lucide="apple" class="w-4 h-4 text-app-muted"></i></li>
-                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>अखंड गुरुनाम (Guru Remembrance)</span> <i data-lucide="brain" class="w-4 h-4 text-app-muted"></i></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Body Metrics & Hydration</h3>
-                            <p class="text-sm mb-2"><strong class="text-app-accent">Yoga Mode:</strong> Tailored tracking for Guided Meditation, Yogasana, and Sukshma Yoga.</p>
-                            <p class="text-sm mb-2"><strong class="text-app-accent">BMI Calculator:</strong> Input weight and height to get your health index.</p>
-                            <p class="text-sm"><strong class="text-app-accent">Water Tracker:</strong> Quick instant logging buttons (+150ml, +250ml, +500ml) right on the home dashboard.</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-lg font-semibold text-theme-text mb-2 theme-transition" data-i18n="sec2_habits">Habits Tracker</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec2_habits_desc">A rolling weekly grid for logging baseline mental and physical traits.</p>
                     </div>
-                    <div class="flex justify-center relative">
-                        <img src="6248927354554094797.jpg" alt="Habits Tracker" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Habits'">
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-lg font-semibold text-theme-text mb-2 theme-transition" data-i18n="sec2_exercise">Exercise Library</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec2_exercise_desc">Contains over 873 physical routines across 7 core categories to help build your strength.</p>
+                    </div>
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-lg font-semibold text-theme-text mb-4 theme-transition" data-i18n="sec2_metrics">Body Metrics</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec2_metrics_desc">Input physical stats to calculate BMI ranges (Underweight, Healthy, Overweight).</p>
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
-            <!-- Section 4: Media Library -->
-            <section id="media">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="headphones" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">3. Media Library & Audio Player</h2>
+            <!-- Section 4: Media & Journals -->
+            <section id="media" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="play-circle" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec3_title">3. Media Library & Journals</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="flex justify-center gap-4">
-                        <img src="6248927354554094799.jpg" alt="Media Library" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Media'">
-                        <img src="6248927354554094772.jpg" alt="Audio Player" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Player'">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="assets/6248927354554094799.jpg" alt="Media Library" class="screenshot w-full object-cover">
+                        <img src="assets/6248927354554094792.jpg" alt="Media Categories" class="screenshot w-full object-cover hidden sm:block">
                     </div>
                     <div class="space-y-6">
-                        <p class="text-app-muted">Access a local and cloud-based media deck providing easy access to spiritual discourses, visual texts, and deep listening collections.</p>
+                        <p class="text-theme-muted text-lg theme-transition" data-i18n="sec3_desc">Your repository for spiritual learning, offering visual texts, serialized audio, and a safe space for introspective writing.</p>
                         
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
-                                <i data-lucide="music-4" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
-                                <h4 class="font-semibold text-sm">Audios</h4>
-                                <p class="text-xs text-app-muted mt-1">Serialized series & lectures</p>
+                            <div class="bg-theme-card p-5 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                                <i data-lucide="music-2" class="w-8 h-8 text-indigo-500 mb-3"></i>
+                                <h4 class="font-bold text-theme-text theme-transition" data-i18n="sec3_audio">Audios</h4>
                             </div>
-                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
-                                <i data-lucide="book-open" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
-                                <h4 class="font-semibold text-sm">Literature</h4>
-                                <p class="text-xs text-app-muted mt-1">Core texts & readers</p>
+                            <div class="bg-theme-card p-5 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                                <i data-lucide="book-open" class="w-8 h-8 text-emerald-500 mb-3"></i>
+                                <h4 class="font-bold text-theme-text theme-transition" data-i18n="sec3_lit">Literature</h4>
                             </div>
-                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
-                                <i data-lucide="image" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
-                                <h4 class="font-semibold text-sm">Visuals</h4>
-                                <p class="text-xs text-app-muted mt-1">Galleries & streaming</p>
-                            </div>
-                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
-                                <i data-lucide="folder-up" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
-                                <h4 class="font-semibold text-sm">My Files</h4>
-                                <p class="text-xs text-app-muted mt-1">Upload custom device files</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-app-card p-4 rounded-xl border border-white/5 mt-4">
-                            <h4 class="font-semibold text-white mb-2"><i data-lucide="play" class="inline w-4 h-4 text-app-accent mr-1"></i> Advanced Playback</h4>
-                            <p class="text-sm text-app-muted">Continuous background play, OS notification integration, speed modulators, 10-second skip, and endless loop toggles.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
-            <!-- Section 5: Community -->
-            <section id="community">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="globe" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">4. Community Ecosystem & Events</h2>
+            <!-- Section 5: Community & Seva -->
+            <section id="community" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="users" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec4_title">4. Community Ecosystem & Seva</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">The Forum</h3>
-                            <p class="text-sm mb-3">A multi-lingual global board (English, Marathi, Kannada) to share spiritual queries. Filter topics like Scriptures, Mantras, and Meditation.</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <img src="assets/6248927354554094789.jpg" alt="Forum" class="screenshot w-full object-cover">
+                    <img src="assets/6248927354554094782.jpg" alt="Clubs" class="screenshot w-full object-cover">
+                    <img src="assets/6248927354554094770.jpg" alt="Volunteering" class="screenshot w-full object-cover hidden md:block">
+                </div>
 
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Circles (Clubs)</h3>
-                            <ul class="space-y-2 text-sm text-app-muted">
-                                <li><strong class="text-app-text">Bhajan & Nartan:</strong> Devotional singing/dance.</li>
-                                <li><strong class="text-app-text">Bodha Circle:</strong> Scriptural wisdom sharing.</li>
-                                <li><strong class="text-app-text">Namasmaran:</strong> Divine name chanting routines.</li>
-                                <li><strong class="text-app-text">Exercise Circle:</strong> Mutual movement goals.</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Seva, Shop & Events</h3>
-                            <p class="text-sm mb-2">Register for community service (e.g. Temple Renovations). RSVP to upcoming spiritual festivals.</p>
-                            <p class="text-sm">Browse the <strong class="text-app-accent">Marketplace</strong> for spiritual literature, calendars, and Poojan materials.</p>
-                        </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-xl font-bold text-theme-text mb-3 theme-transition" data-i18n="sec4_forum">The Forum</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec4_forum_desc">A multi-lingual global board dedicated to sharing spiritual queries.</p>
                     </div>
+
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-xl font-bold text-theme-text mb-3 theme-transition" data-i18n="sec4_clubs">Circles (Clubs)</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec4_clubs_desc">Coordinate tasks and share milestones in specialized cohorts.</p>
+                    </div>
+
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-xl font-bold text-theme-text mb-3 theme-transition" data-i18n="sec4_seva">Seva & Volunteering</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec4_seva_desc">Transparent registration pipelines for community service logistics.</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-theme-border theme-transition">
+            
+            <!-- Section 6: Shop & Events -->
+            <section id="shop" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="shopping-bag" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec5_title">5. Events & Marketplace</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     <div class="flex justify-center gap-4">
-                        <img src="6248927354554094782.jpg" alt="Clubs" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Clubs'">
-                        <img src="6248927354554094789.jpg" alt="Forum" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Forum'">
+                        <img src="assets/6248927354554094796.jpg" alt="Upcoming Events" class="screenshot w-full max-w-[280px]">
+                        <img src="assets/6248927354554094790.jpg" alt="Marketplace" class="screenshot w-full max-w-[280px] hidden sm:block">
+                    </div>
+                    <div class="space-y-8">
+                        <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                            <h3 class="text-xl font-bold text-theme-text mb-3 flex items-center gap-2 theme-transition">
+                                <i data-lucide="calendar-heart" class="w-5 h-5 text-red-400"></i> <span data-i18n="sec5_events">Events Calendar</span>
+                            </h3>
+                            <p class="text-sm text-theme-muted theme-transition" data-i18n="sec5_events_desc">Check upcoming spiritual festivals, camps, or tests. Submit your RSVP directly.</p>
+                        </div>
+                        <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                            <h3 class="text-xl font-bold text-theme-text mb-3 flex items-center gap-2 theme-transition">
+                                <i data-lucide="store" class="w-5 h-5 text-amber-600"></i> <span data-i18n="sec5_shop">Spiritual Marketplace</span>
+                            </h3>
+                            <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec5_shop_desc">A built-in storefront allowing users to browse and purchase physical items, resources, and literature securely via standard ₹ currency.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
-            <!-- Section 6: Tools -->
-            <section id="tools">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="compass" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">5. Utility Tools Panel</h2>
+            <!-- Section 7: Utility Tools -->
+            <section id="tools" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="wrench" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec6_title">6. Utility Tools Panel</h2>
                 </div>
+                
+                <p class="text-theme-muted mb-10 text-lg theme-transition" data-i18n="sec6_desc">Standalone micro-utilities built into the platform to provide cognitive anchoring.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="flex justify-center gap-4 order-2 md:order-1">
-                        <img src="6248927354554094776.jpg" alt="Pomodoro Timer" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Pomodoro'">
-                        <img src="6248927354554094773.jpg" alt="Compass" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Compass'">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    
+                    <div class="flex justify-center gap-4">
+                        <img src="assets/6248927354554094776.jpg" alt="Pomodoro Timer Focus" class="screenshot w-full max-w-[280px]">
+                        <img src="assets/6248927354554094773.jpg" alt="Compass Pro" class="screenshot w-full max-w-[280px] hidden sm:block">
                     </div>
-                    <div class="space-y-6 order-1 md:order-2">
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                                <i data-lucide="timer" class="w-5 h-5 text-app-accent"></i> Pomodoro Focus Timer
-                            </h3>
-                            <p class="text-sm mb-4">A productivity system for spiritual studies or work.</p>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
-                                    <span>Focus Block</span> <span class="text-app-accent">25 min</span>
+
+                    <div class="space-y-6">
+                        
+                        <div class="bg-theme-card rounded-2xl p-6 border border-theme-border shadow-sm theme-transition">
+                            <div class="flex items-center gap-3 mb-3">
+                                <i data-lucide="timer" class="w-6 h-6 text-theme-accent"></i>
+                                <h3 class="text-xl font-bold text-theme-text theme-transition" data-i18n="sec6_pomo">Pomodoro Focus Timer</h3>
+                            </div>
+                            <p class="text-theme-muted text-sm mb-6 theme-transition" data-i18n="sec6_pomo_desc">A productivity system for spiritual studies or work.</p>
+                            
+                            <div class="space-y-4 text-sm font-medium">
+                                <div class="flex justify-between items-center border-b border-theme-border pb-3 theme-transition">
+                                    <span class="text-theme-text theme-transition" data-i18n="pomo_focus">Focus Block</span>
+                                    <span class="text-[#FCA311]">25 min</span>
                                 </div>
-                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
-                                    <span>Short Break</span> <span class="text-green-500">5 min</span>
+                                <div class="flex justify-between items-center border-b border-theme-border pb-3 theme-transition">
+                                    <span class="text-theme-text theme-transition" data-i18n="pomo_short">Short Break</span>
+                                    <span class="text-[#4CAF50]">5 min</span>
                                 </div>
-                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
-                                    <span>Long Break</span> <span class="text-blue-500">15 min</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-theme-text theme-transition" data-i18n="pomo_long">Long Break</span>
+                                    <span class="text-[#42A5F5]">15 min</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                                <i data-lucide="navigation" class="w-5 h-5 text-app-accent"></i> Compass Pro & Calibration
-                            </h3>
-                            <p class="text-sm mb-3">High-accuracy tool for aligning toward cardinal directions for meditation or Pooja.</p>
-                            <div class="bg-app-bg p-3 rounded-lg border border-app-accent/20">
-                                <p class="text-xs font-semibold text-app-accent mb-2">💡 Calibration Steps:</p>
-                                <ol class="list-decimal list-inside text-xs space-y-1 text-app-muted">
-                                    <li>Clear magnetic interference.</li>
-                                    <li>Lay device flat, tilt 45° forward.</li>
-                                    <li>Move device in a continuous "8" shape in the air.</li>
+                        <div class="bg-theme-card rounded-2xl p-6 border border-theme-border shadow-sm theme-transition">
+                            <div class="flex items-center gap-3 mb-3">
+                                <i data-lucide="navigation" class="w-6 h-6 text-theme-accent transform rotate-45"></i>
+                                <h3 class="text-xl font-bold text-theme-text theme-transition" data-i18n="sec6_compass">Compass Pro & Calibration</h3>
+                            </div>
+                            
+                            <div class="bg-theme-accentLight/20 border border-theme-accent/30 rounded-xl p-5 theme-transition">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <i data-lucide="lightbulb" class="w-5 h-5 text-theme-accent"></i>
+                                    <h4 class="font-bold text-theme-accent" data-i18n="sec6_calib">Calibration Steps:</h4>
+                                </div>
+                                <ol class="list-decimal list-inside text-sm text-theme-text space-y-2 theme-transition">
+                                    <li data-i18n="calib_1">Clear magnetic interference.</li>
+                                    <li data-i18n="calib_2">Lay device flat, tilt 45° forward.</li>
+                                    <li data-i18n="calib_3">Move device in a continuous "8" shape.</li>
                                 </ol>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>
 
-            <hr class="border-white/5">
+            <hr class="border-theme-border theme-transition">
 
-            <!-- Section 7: Profile & Security -->
-            <section id="profile">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="shield-check" class="w-6 h-6 text-app-accent"></i></div>
-                    <h2 class="text-2xl font-bold text-white">6. Profile, Security & Donations</h2>
+            <!-- Section 8: Profile & Settings -->
+            <section id="profile" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-theme-accentLight p-3 rounded-xl theme-transition"><i data-lucide="settings" class="w-6 h-6 text-theme-accent"></i></div>
+                    <h2 class="text-3xl font-bold text-theme-text theme-transition" data-i18n="sec7_title">7. Profile, Security & Donations</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Personal Milestones</h3>
-                            <p class="text-sm text-app-muted mb-3">View your Unique Member ID, Devotee Tier, and gamified streaks tracking consecutive days and Leaderboard Points.</p>
-                        </div>
-                        
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-lg font-semibold text-white mb-2">Security Preferences</h3>
-                            <ul class="space-y-3 text-sm">
-                                <li class="flex items-center gap-3"><i data-lucide="moon" class="w-4 h-4 text-app-accent"></i> Dark Mode Toggle</li>
-                                <li class="flex items-center gap-3"><i data-lucide="fingerprint" class="w-4 h-4 text-app-accent"></i> Biometric Login & App Lock</li>
-                                <li class="flex items-center gap-3"><i data-lucide="download" class="w-4 h-4 text-app-accent"></i> Export Data Backup</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-app-card p-6 rounded-2xl border border-white/5 border-l-4 border-l-app-accent">
-                            <h3 class="text-lg font-semibold text-white mb-2">Supporting the Ecosystem</h3>
-                            <p class="text-sm text-app-muted mb-3">Fund ongoing maintenance, Guru Dakshina, or General Operations.</p>
-                            <p class="text-sm"><strong class="text-app-text">Digital (UPI/QR):</strong> Direct copying for handles.</p>
-                            <p class="text-sm"><strong class="text-app-text">Cash Processing:</strong> Record manual transactions for admin verification.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm theme-transition">
+                        <h3 class="text-xl font-bold text-theme-text mb-4 theme-transition" data-i18n="sec7_sec">Security Preferences</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between border-b border-theme-border pb-3 theme-transition">
+                                <span class="text-sm font-medium text-theme-text flex items-center gap-2 theme-transition"><i data-lucide="moon" class="w-4 h-4 text-theme-muted theme-transition"></i> <span data-i18n="sec7_dark">Dark Mode Toggle</span></span>
+                            </div>
+                            <div class="flex items-center justify-between border-b border-theme-border pb-3 theme-transition">
+                                <span class="text-sm font-medium text-theme-text flex items-center gap-2 theme-transition"><i data-lucide="fingerprint" class="w-4 h-4 text-theme-muted theme-transition"></i> <span data-i18n="sec7_bio">Biometric Login</span></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex justify-center gap-4">
-                        <img src="6248927354554094791.jpg" alt="Profile" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Profile'">
-                        <img src="6248927354554094778.jpg" alt="Donate" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Donate'">
+
+                    <div class="bg-theme-card p-6 rounded-2xl border border-theme-border shadow-sm lg:col-span-2 theme-transition">
+                        <h3 class="text-xl font-bold text-theme-text mb-4 theme-transition" data-i18n="sec7_donations">Donations Routing</h3>
+                        <p class="text-sm text-theme-muted mb-4 theme-transition" data-i18n="sec7_don_desc">Support database development and Guru Dakshina via a dual-path mechanism.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-theme-accentLight/20 p-4 rounded-xl border border-theme-accent/20 theme-transition">
+                                <strong class="text-theme-text block mb-1 theme-transition" data-i18n="sec7_upi"><i data-lucide="qr-code" class="inline w-4 h-4 mr-1 text-theme-accent"></i> Digital (UPI/QR)</strong>
+                            </div>
+                            <div class="bg-theme-bg p-4 rounded-xl border border-theme-border theme-transition">
+                                <strong class="text-theme-text block mb-1 theme-transition" data-i18n="sec7_cash"><i data-lucide="banknote" class="inline w-4 h-4 mr-1 text-green-500"></i> Physical Cash Form</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -466,35 +487,247 @@
         </main>
     </div>
 
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 p-3 rounded-full bg-theme-accent text-white shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-[#B45309] focus:outline-none cursor-pointer">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </button>
+
     <!-- Footer -->
-    <footer class="bg-app-card border-t border-white/5 py-8 mt-12">
+    <footer class="bg-theme-card border-t border-theme-border py-10 mt-16 theme-transition">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
-                <i data-lucide="flower-2" class="w-5 h-5 text-app-accent"></i>
-                <span class="font-bold text-white tracking-wide">Sansmaran</span>
+                <i data-lucide="flower-2" class="w-5 h-5 text-theme-accent"></i>
+                <span class="font-bold text-theme-text tracking-wide theme-transition">Sansmaran</span>
             </div>
-            <p class="text-sm text-app-muted">Spiritual Wellness App User Manual &copy; 2026</p>
+            <p class="text-sm text-theme-muted theme-transition" data-i18n="footer">Spiritual Wellness App User Manual &copy; 2026</p>
         </div>
     </footer>
 
-    <!-- Initialize Lucide Icons & Mobile Menu Script -->
+    <!-- Initialize Scripts & i18n Logic -->
     <script>
         lucide.createIcons();
 
-        // Mobile menu toggle
+        // --- Translation Dictionary (Offline i18n) ---
+        const translations = {
+            en: {
+                nav_subtitle: "User Manual",
+                sidebar_guide: "Content Guide",
+                nav_overview: "Overview", nav_sadhana: "Sadhana", nav_wellness: "Wellness", nav_media: "Media", nav_community: "Community", nav_shop: "Shop", nav_tools: "Tools", nav_profile: "Profile",
+                welcome_title: "Welcome to Sansmaran",
+                welcome_desc: "Your dedicated digital companion for spiritual growth, personal wellness, and mindful living. Explore the app's diverse ecosystem.",
+                home_dash: "The Home Dashboard",
+                home_grid_title: "Today's Overview Grid", home_grid_desc: "Displays immediate operational stats: Total Japas, weekly habit progress, library media counts, and scheduled events.",
+                home_water_title: "Integrated Water Tracker", home_water_desc: "Quickly log hydration intervals right on your dashboard using instant +150ml, +250ml, or +500ml increments.",
+                sec1_title: "1. Daily Sadhana & Meditation", sec1_desc: "Your primary workspace centers around tracking your spiritual disciplines and deepening mental stillness.",
+                sec1_japa: "Tracking Japa", sec1_japa_desc: "The highly precise counter logs sub-metrics. Tap the big [+] and [-] buttons during your session.",
+                sec1_checklist: "Practice Checklist", feat_med: "Meditation", feat_read: "Reading", feat_mantra: "Mantra", feat_seva: "Seva",
+                sec2_title: "2. Habits & Physical Wellness",
+                sec2_habits: "Habits Tracker", sec2_habits_desc: "A rolling weekly grid for logging baseline mental and physical traits.",
+                sec2_exercise: "Exercise Library", sec2_exercise_desc: "Contains over 873 physical routines across 7 core categories to help build your strength.",
+                sec2_metrics: "Body Metrics", sec2_metrics_desc: "Input physical stats to calculate BMI ranges (Underweight, Healthy, Overweight).",
+                sec3_title: "3. Media Library & Journals", sec3_desc: "Your repository for spiritual learning, offering visual texts, serialized audio, and a safe space for introspective writing.",
+                sec3_audio: "Audios", sec3_lit: "Literature", 
+                sec4_title: "4. Community Ecosystem & Seva",
+                sec4_forum: "The Forum", sec4_forum_desc: "A multi-lingual global board dedicated to sharing spiritual queries.",
+                sec4_clubs: "Circles (Clubs)", sec4_clubs_desc: "Coordinate tasks and share milestones in specialized cohorts.",
+                sec4_seva: "Seva & Volunteering", sec4_seva_desc: "Transparent registration pipelines for community service logistics.",
+                sec5_title: "5. Events & Marketplace", 
+                sec5_events: "Events Calendar", sec5_events_desc: "Check upcoming spiritual festivals, camps, or tests. Submit your RSVP directly.",
+                sec5_shop: "Spiritual Marketplace", sec5_shop_desc: "A built-in storefront allowing users to browse and purchase physical items securely.",
+                sec6_title: "6. Utility Tools Panel", sec6_desc: "Standalone micro-utilities built into the platform to provide cognitive anchoring.",
+                sec6_pomo: "Pomodoro Focus Timer", sec6_pomo_desc: "A productivity system for spiritual studies or work.",
+                pomo_focus: "Focus Block", pomo_short: "Short Break", pomo_long: "Long Break",
+                sec6_compass: "Compass Pro & Calibration", sec6_calib: "Calibration Steps:",
+                calib_1: "Clear magnetic interference.", calib_2: "Lay device flat, tilt 45° forward.", calib_3: "Move device in a continuous \"8\" shape.",
+                sec7_title: "7. Profile, Security & Donations",
+                sec7_sec: "Security Preferences", sec7_dark: "Dark Mode Toggle", sec7_bio: "Biometric Login",
+                sec7_donations: "Donations Routing", sec7_don_desc: "Support database development and Guru Dakshina via a dual-path mechanism.",
+                sec7_upi: "Digital (UPI/QR)", sec7_cash: "Physical Cash Form",
+                footer: "Spiritual Wellness App User Manual © 2026"
+            },
+            mr: {
+                nav_subtitle: "वापरकर्ता मॅन्युअल",
+                sidebar_guide: "सामग्री मार्गदर्शक",
+                nav_overview: "आढावा", nav_sadhana: "साधना", nav_wellness: "आरोग्य", nav_media: "माध्यम", nav_community: "समुदाय", nav_shop: "दुकान", nav_tools: "साधने", nav_profile: "प्रोफाइल",
+                welcome_title: "संस्मरण मध्ये आपले स्वागत आहे",
+                welcome_desc: "आध्यात्मिक वाढ, वैयक्तिक आरोग्य आणि सजग जीवनासाठी तुमचा समर्पित डिजिटल साथी. ॲपची परिसंस्था एक्सप्लोर करा.",
+                home_dash: "मुख्य डॅशबोर्ड",
+                home_grid_title: "आजचा आढावा", home_grid_desc: "तात्काळ ऑपरेशनल आकडेवारी दर्शविते: एकूण जप, साप्ताहिक प्रगती, मीडिया आणि आगामी कार्यक्रम.",
+                home_water_title: "पाणी ट्रॅकर", home_water_desc: "+150ml, +250ml, किंवा +500ml बटणांचा वापर करून डॅशबोर्डवर तुमच्या पाण्याचे प्रमाण नोंदवा.",
+                sec1_title: "१. दैनिक साधना आणि ध्यान", sec1_desc: "तुमच्या आध्यात्मिक शिस्तीचा मागोवा घेण्यासाठी आणि मानसिक शांतता वाढवण्यासाठी हे तुमचे मुख्य कार्यक्षेत्र आहे.",
+                sec1_japa: "जप ट्रॅकर", sec1_japa_desc: "हा अचूक काउंटर आहे. सत्रादरम्यान मोठी [+] आणि [-] बटणे टॅप करा.",
+                sec1_checklist: "सराव चेकलिस्ट", feat_med: "ध्यान", feat_read: "वाचन", feat_mantra: "मंत्र", feat_seva: "सेवा",
+                sec2_title: "२. सवयी आणि शारीरिक आरोग्य",
+                sec2_habits: "सवयी ट्रॅकर", sec2_habits_desc: "मानसिक आणि शारीरिक सवयी नोंदवण्यासाठी साप्ताहिक ग्रिड.",
+                sec2_exercise: "व्यायाम लायब्ररी", sec2_exercise_desc: "तुमची ताकद वाढवण्यासाठी ७ श्रेणींमध्ये ८७३ हून अधिक व्यायाम.",
+                sec2_metrics: "बॉडी मेट्रिक्स", sec2_metrics_desc: "बीएमआय (BMI) मोजण्यासाठी तुमची शारीरिक आकडेवारी प्रविष्ट करा.",
+                sec3_title: "३. मीडिया लायब्ररी आणि जर्नल्स", sec3_desc: "आध्यात्मिक शिक्षणासाठी तुमचे भांडार, ज्यात ऑडिओ आणि वैयक्तिक लिखाणासाठी जर्नल्स आहेत.",
+                sec3_audio: "ऑडिओ", sec3_lit: "साहित्य",
+                sec4_title: "४. समुदाय आणि सेवा",
+                sec4_forum: "मंच (फोरम)", sec4_forum_desc: "आध्यात्मिक प्रश्न सामायिक करण्यासाठी एक बहुभाषिक जागतिक मंच.",
+                sec4_clubs: "क्लब", sec4_clubs_desc: "कार्ये समन्वयित करा आणि विशेष गटांमध्ये प्रगती सामायिक करा.",
+                sec4_seva: "सेवा आणि स्वयंसेवा", sec4_seva_desc: "समुदाय सेवा आणि लॉजिस्टिकसाठी नोंदणी प्रक्रिया.",
+                sec5_title: "५. कार्यक्रम आणि दुकाने",
+                sec5_events: "कार्यक्रम दिनदर्शिका", sec5_events_desc: "आगामी आध्यात्मिक उत्सव किंवा शिबिरे तपासा. तुमची उपस्थिती थेट नोंदवा.",
+                sec5_shop: "आध्यात्मिक दुकान", sec5_shop_desc: "वापरकर्त्यांना भौतिक वस्तू आणि साहित्य खरेदी करण्यासाठी एक स्टोअरफ्रंट.",
+                sec6_title: "६. उपयुक्त साधने", sec6_desc: "तुमच्या दैनंदिन दिनचर्येत दिशा देण्यासाठी प्लॅटफॉर्ममध्ये बांधलेली मायक्रो-युटिलिटीज.",
+                sec6_pomo: "पोमोडोरो फोकस टाइमर", sec6_pomo_desc: "आध्यात्मिक अभ्यासासाठी किंवा कामासाठी उत्पादकता प्रणाली.",
+                pomo_focus: "फोकस ब्लॉक", pomo_short: "लहान ब्रेक", pomo_long: "मोठा ब्रेक",
+                sec6_compass: "होकायंत्र आणि कॅलिब्रेशन", sec6_calib: "कॅलिब्रेशन पायऱ्या:",
+                calib_1: "चुंबकीय हस्तक्षेप दूर करा.", calib_2: "डिव्हाइस सपाट ठेवा, ४५° पुढे झुकवा.", calib_3: "हवेत '८' च्या आकारात फोन फिरवा.",
+                sec7_title: "७. प्रोफाइल, सुरक्षा आणि देणगी",
+                sec7_sec: "सुरक्षा प्राधान्ये", sec7_dark: "डार्क मोड", sec7_bio: "बायोमेट्रिक लॉगिन",
+                sec7_donations: "देणगी मार्ग", sec7_don_desc: "डेटाबेस विकास आणि गुरुदक्षिणेला समर्थन द्या.",
+                sec7_upi: "डिजिटल (UPI/QR)", sec7_cash: "रोख फॉर्म",
+                footer: "आध्यात्मिक आरोग्य ॲप वापरकर्ता मॅन्युअल © २०२६"
+            },
+            kn: {
+                nav_subtitle: "ಬಳಕೆದಾರ ಕೈಪಿಡಿ",
+                sidebar_guide: "ವಿಷಯ ಮಾರ್ಗದರ್ಶಿ",
+                nav_overview: "ಅವಲೋಕನ", nav_sadhana: "ಸಾಧನಾ", nav_wellness: "ಆರೋಗ್ಯ", nav_media: "ಮಾಧ್ಯಮ", nav_community: "ಸಮುದಾಯ", nav_shop: "ಅಂಗಡಿ", nav_tools: "ಉಪಕರಣಗಳು", nav_profile: "ಪ್ರೊಫೈಲ್",
+                welcome_title: "ಸಂಸ್ಮರಣ್ ಗೆ ಸುಸ್ವಾಗತ",
+                welcome_desc: "ನಿಮ್ಮ ಆಧ್ಯಾತ್ಮಿಕ ಬೆಳವಣಿಗೆ, ವೈಯಕ್ತಿಕ ಆರೋಗ್ಯ ಮತ್ತು ಎಚ್ಚರಿಕೆಯ ಜೀವನಕ್ಕೆ ಮೀಸಲಾದ ಡಿಜಿಟಲ್ ಒಡನಾಡಿ.",
+                home_dash: "ಮುಖಪುಟ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+                home_grid_title: "ಇಂದಿನ ಅವಲೋಕನ", home_grid_desc: "ಒಟ್ಟು ಜಪಗಳು, ಸಾಪ್ತಾಹಿಕ ಪ್ರಗತಿ, ಮತ್ತು ನಿಗದಿತ ಘಟನೆಗಳನ್ನು ತೋರಿಸುತ್ತದೆ.",
+                home_water_title: "ನೀರಿನ ಟ್ರ್ಯಾಕರ್", home_water_desc: "+150ml, +250ml ಅಥವಾ +500ml ಬಳಸಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ನಲ್ಲಿ ನೀರು ಕುಡಿಯುವುದನ್ನು ಲಾಗ್ ಮಾಡಿ.",
+                sec1_title: "೧. ದೈನಂದಿನ ಸಾಧನಾ ಮತ್ತು ಧ್ಯಾನ", sec1_desc: "ನಿಮ್ಮ ಆಧ್ಯಾತ್ಮಿಕ ಶಿಸ್ತುಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಇದು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಕಾರ್ಯಕ್ಷೇತ್ರವಾಗಿದೆ.",
+                sec1_japa: "ಜಪ ಟ್ರ್ಯಾಕಿಂಗ್", sec1_japa_desc: "ನಿಖರವಾದ ಕೌಂಟರ್. ನಿಮ್ಮ ಅಧಿವೇಶನದಲ್ಲಿ ದೊಡ್ಡ [+] ಮತ್ತು [-] ಗುಂಡಿಗಳನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ.",
+                sec1_checklist: "ಅಭ್ಯಾಸ ಪರಿಶೀಲನಾಪಟ್ಟಿ", feat_med: "ಧ್ಯಾನ", feat_read: "ಓದುವಿಕೆ", feat_mantra: "ಮಂತ್ರ", feat_seva: "ಸೇವೆ",
+                sec2_title: "೨. ಅಭ್ಯಾಸಗಳು ಮತ್ತು ದೈಹಿಕ ಆರೋಗ್ಯ",
+                sec2_habits: "ಅಭ್ಯಾಸ ಟ್ರ್ಯಾಕರ್", sec2_habits_desc: "ಮಾನಸಿಕ ಮತ್ತು ದೈಹಿಕ ಲಕ್ಷಣಗಳನ್ನು ಲಾಗ್ ಮಾಡಲು ಸಾಪ್ತಾಹಿಕ ಗ್ರಿಡ್.",
+                sec2_exercise: "ವ್ಯಾಯಾಮ ಗ್ರಂಥಾಲಯ", sec2_exercise_desc: "ನಿಮ್ಮ ಶಕ್ತಿಯನ್ನು ಬೆಳೆಸಲು 7 ವಿಭಾಗಗಳಲ್ಲಿ 873 ಕ್ಕೂ ಹೆಚ್ಚು ದಿನಚರಿಗಳನ್ನು ಹೊಂದಿದೆ.",
+                sec2_metrics: "ದೇಹದ ಮೆಟ್ರಿಕ್ಸ್", sec2_metrics_desc: "BMI ಅನ್ನು ಲೆಕ್ಕಹಾಕಲು ನಿಮ್ಮ ಭೌತಿಕ ಅಂಕಿಅಂಶಗಳನ್ನು ನಮೂದಿಸಿ.",
+                sec3_title: "೩. ಮಾಧ್ಯಮ ಗ್ರಂಥಾಲಯ ಮತ್ತು ನಿಯತಕಾಲಿಕೆಗಳು", sec3_desc: "ಆಧ್ಯಾತ್ಮಿಕ ಕಲಿಕೆಗೆ ನಿಮ್ಮ ಭಂಡಾರ, ಆಡಿಯೋ ಮತ್ತು ಬರವಣಿಗೆಗೆ ಸುರಕ್ಷಿತ ಸ್ಥಳವನ್ನು ನೀಡುತ್ತದೆ.",
+                sec3_audio: "ಆಡಿಯೋಗಳು", sec3_lit: "ಸಾಹಿತ್ಯ",
+                sec4_title: "೪. ಸಮುದಾಯ ಮತ್ತು ಸೇವೆ",
+                sec4_forum: "ವೇದಿಕೆ (ಫೋರಂ)", sec4_forum_desc: "ಆಧ್ಯಾತ್ಮಿಕ ಪ್ರಶ್ನೆಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಮೀಸಲಾದ ಜಾಗತಿಕ ವೇದಿಕೆ.",
+                sec4_clubs: "ಕ್ಲಬ್‌ಗಳು", sec4_clubs_desc: "ವಿಶೇಷ ಗುಂಪುಗಳಲ್ಲಿ ಕಾರ್ಯಗಳನ್ನು ಸಂಯೋಜಿಸಿ ಮತ್ತು ಮೈಲಿಗಲ್ಲುಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ.",
+                sec4_seva: "ಸೇವೆ ಮತ್ತು ಸ್ವಯಂಸೇವಕ", sec4_seva_desc: "ಸಮುದಾಯ ಸೇವೆಗಾಗಿ ನೋಂದಣಿ ಪೈಪ್‌ಲೈನ್‌ಗಳು.",
+                sec5_title: "೫. ಘಟನೆಗಳು ಮತ್ತು ಮಾರುಕಟ್ಟೆ",
+                sec5_events: "ಕ್ಯಾಲೆಂಡರ್ ಘಟನೆಗಳು", sec5_events_desc: "ಮುಂಬರುವ ಆಧ್ಯಾತ್ಮಿಕ ಹಬ್ಬಗಳನ್ನು ಪರಿಶೀಲಿಸಿ. ನಿಮ್ಮ RSVP ಅನ್ನು ಸಲ್ಲಿಸಿ.",
+                sec5_shop: "ಆಧ್ಯಾತ್ಮಿಕ ಮಾರುಕಟ್ಟೆ", sec5_shop_desc: "ಭೌತಿಕ ವಸ್ತುಗಳು ಮತ್ತು ಸಾಹಿತ್ಯವನ್ನು ಖರೀದಿಸಲು ಅಂತರ್ನಿರ್ಮಿತ ಅಂಗಡಿ ಮುಂಭಾಗ.",
+                sec6_title: "೬. ಉಪಯುಕ್ತತೆ ಪರಿಕರಗಳು", sec6_desc: "ನಿಮ್ಮ ದೈನಂದಿನ ದಿನಚರಿಯಲ್ಲಿ ದೃಷ್ಟಿಕೋನವನ್ನು ಒದಗಿಸಲು ಪ್ಲಾಟ್‌ಫಾರ್ಮ್‌ನಲ್ಲಿ ನಿರ್ಮಿಸಲಾಗಿದೆ.",
+                sec6_pomo: "ಪೊಮೊಡೊರೊ ಟೈಮರ್", sec6_pomo_desc: "ಆಧ್ಯಾತ್ಮಿಕ ಅಧ್ಯಯನ ಅಥವಾ ಕೆಲಸಕ್ಕಾಗಿ ಉತ್ಪಾದಕತೆಯ ವ್ಯವಸ್ಥೆ.",
+                pomo_focus: "ಗಮನ (ಫೋಕಸ್)", pomo_short: "ಸಣ್ಣ ವಿರಾಮ", pomo_long: "ದೀರ್ಘ ವಿರಾಮ",
+                sec6_compass: "ದಿಕ್ಸೂಚಿ ಮತ್ತು ಮಾಪನಾಂಕ", sec6_calib: "ಮಾಪನಾಂಕ ನಿರ್ಣಯ ಹಂತಗಳು:",
+                calib_1: "ಕಾಂತೀಯ ಹಸ್ತಕ್ಷೇಪವನ್ನು ತೆರವುಗೊಳಿಸಿ.", calib_2: "ಸಾಧನವನ್ನು ಸಮತಟ್ಟಾಗಿ ಇರಿಸಿ, 45° ಓರೆಯಾಗಿಸಿ.", calib_3: "ಗಾಳಿಯಲ್ಲಿ '8' ಆಕಾರದಲ್ಲಿ ಫೋನ್ ಅನ್ನು ಸರಿಸಿ.",
+                sec7_title: "೭. ಪ್ರೊಫೈಲ್, ಭದ್ರತೆ ಮತ್ತು ದೇಣಿಗೆಗಳು",
+                sec7_sec: "ಭದ್ರತಾ ಆದ್ಯತೆಗಳು", sec7_dark: "ಡಾರ್ಕ್ ಮೋಡ್", sec7_bio: "ಬಯೋಮೆಟ್ರಿಕ್ ಲಾಗಿನ್",
+                sec7_donations: "ದೇಣಿಗೆ ಮಾರ್ಗ", sec7_don_desc: "ಡೇಟಾಬೇಸ್ ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಗುರು ದಕ್ಷಿಣೆಯನ್ನು ಬೆಂಬಲಿಸಿ.",
+                sec7_upi: "ಡಿಜಿಟಲ್ (UPI/QR)", sec7_cash: "ನಗದು ಫಾರ್ಮ್",
+                footer: "ಆಧ್ಯಾತ್ಮಿಕ ವೆಲ್ನೆಸ್ ಅಪ್ಲಿಕೇಶನ್ ಬಳಕೆದಾರ ಕೈಪಿಡಿ © 2026"
+            }
+        };
+
+        // --- Translation Dropdown Logic ---
+        const translateBtn = document.getElementById('translate-btn');
+        const translateMenu = document.getElementById('translate-menu');
+        const currentLangSpan = document.getElementById('current-lang');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        translateBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            translateMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!translateBtn.contains(e.target) && !translateMenu.contains(e.target)) {
+                translateMenu.classList.add('hidden');
+            }
+        });
+
+        // Offline i18n Setter
+        function setLanguage(langCode) {
+            const dict = translations[langCode];
+            if (!dict) return;
+
+            // Find all elements with a data-i18n attribute and update them
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key]; 
+                }
+            });
+            
+            // Set HTML lang attribute for accessibility
+            document.documentElement.lang = langCode;
+        }
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.getAttribute('data-lang');
+                let langText = 'English';
+                if(lang === 'mr') langText = 'Marathi';
+                if(lang === 'kn') langText = 'Kannada';
+                
+                currentLangSpan.textContent = langText;
+                translateMenu.classList.add('hidden');
+                
+                // Execute Offline Translation
+                setLanguage(lang);
+            });
+        });
+
+        // --- Scroll to Top Logic ---
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+                scrollToTopBtn.classList.add('translate-y-0', 'opacity-100');
+            } else {
+                scrollToTopBtn.classList.add('translate-y-20', 'opacity-0');
+                scrollToTopBtn.classList.remove('translate-y-0', 'opacity-100');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- Theme Toggle Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            lightIcon.classList.remove('hidden');
+            document.documentElement.classList.add('dark');
+        } else {
+            darkIcon.classList.remove('hidden');
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // --- Mobile menu toggle ---
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
+        btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+        links.forEach(link => { link.addEventListener('click', () => { menu.classList.add('hidden'); }); });
     </script>
 </body>
 </html>
