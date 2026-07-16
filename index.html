@@ -1,77 +1,500 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth scroll-pt-24">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Defect Tracker</title>
-    <link rel="stylesheet" href="styles.css">
-
-
+    <title>Sansmaran - Spiritual Wellness App User Manual</title>
+    
+    <!-- Google Fonts: Poppins for a modern, clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind Config for Custom Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        app: {
+                            bg: '#1A110A',       // Deep warm brown
+                            card: '#291D16',     // Lighter brown for cards
+                            cardHover: '#36271E',
+                            accent: '#FCA311',   // Spiritual Gold/Orange
+                            accentHover: '#E5930F',
+                            text: '#E8DCC8',     // Soft cream text
+                            muted: '#A89F91'     // Muted cream
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Scrollbar for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A110A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FCA311;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E5930F;
+        }
+        
+        .screenshot {
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            border: 4px solid #36271E;
+            transition: transform 0.3s ease;
+        }
+        .screenshot:hover {
+            transform: translateY(-5px);
+        }
+    </style>
 </head>
-<body>
-    <div class="header">
-        <div id="time"></div>
-        <h1>Game Defect Tracker</h1>
-    </div>
+<body class="bg-app-bg text-app-text font-sans antialiased selection:bg-app-accent selection:text-app-bg">
 
-    <div class="container">
-        <h2>Hello Gamer!</h2>
-
-        <button onclick="showForm('approvalForm')">First Approval Test Report</button>
-        <button onclick="showForm('testReportForm')">Second Approval Test Report</button>
-
-        <div id="testReportForm" class="form-container">
-            <h3>Second Approval Test Report</h3>
-            <form>
-                <label for="gameName">Game name:</label>
-                <input type="text" id="reportGameName" name="gameName" required><br>
-
-                <label for="version">Version:</label>
-                <input type="text" id="version" name="version" required><br>
-
-                <label>Observations:</label><br>
-                <input type="checkbox" id="reportAd" name="observations" value="Interstitial Ads are Triggering">
-                <label for="reportAd" class="observation-label">Interstitial Ads are Triggering</label><br>
-                <input type="checkbox" id="reportInApp" name="observations" value="In-App purchases are working">
-                <label for="reportInApp" class="observation-label">In-App purchases are working</label><br>
-                <input type="checkbox" id="reportFunc" name="observations" value="Basic game functionalities are working">
-                <label for="reportFunc" class="observation-label">Basic game functionalities are working</label><br>
-
-                <label for="defects">Defects Noticed:</label>
-                <textarea id="reportDefects" name="defects" rows="4" cols="50"></textarea><br>
-
-                <button type="button" onclick="generateTestReport()">Generate Report</button>
-                <button type="button" id="copyTestButton" onclick="copyTestReport()" style="display:none;">Copy Report to Clipboard</button>
-            </form>
-
-            <div id="reportOutput" class="report-output"></div>
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 w-full bg-app-card/95 backdrop-blur border-b border-white/5 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-app-accent rounded-full flex items-center justify-center text-app-bg">
+                        <i data-lucide="flower-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white leading-tight">Sansmaran</h1>
+                        <p class="text-xs text-app-accent tracking-widest uppercase">User Manual</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="#home" class="text-sm font-medium hover:text-app-accent transition">Overview</a>
+                    <a href="#sadhana" class="text-sm font-medium hover:text-app-accent transition">Sadhana</a>
+                    <a href="#habits" class="text-sm font-medium hover:text-app-accent transition">Habits</a>
+                    <a href="#media" class="text-sm font-medium hover:text-app-accent transition">Media</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-app-text hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div id="approvalForm" class="form-container">
-            <h3>First Approval Test Report</h3>
-            <form>
-                <label for="gameName">Game name:</label>
-                <input type="text" id="approvalGameName" name="gameName" required><br>
-
-                <label>Observations:</label><br>
-                <input type="checkbox" id="approvalFunc" name="observations" value="Game functionalities">
-                <label for="approvalFunc" class="observation-label">Game functionalities are working</label><br>
-                <input type="checkbox" id="approvalTitleIcon" name="observations" value="Title & Icon is displaying">
-                <label for="approvalTitleIcon" class="observation-label">Title & Icon is displaying</label><br>
-                <input type="checkbox" id="approvalRemoveButtons" name="observations" value="Disabled/removed unnecessary buttons">
-                <label for="approvalRemoveButtons" class="observation-label">Disabled/removed unnecessary buttons</label><br>
-
-                <label for="defects">Defects Noticed:</label>
-                <textarea id="approvalDefects" name="defects" rows="4" cols="50"></textarea><br>
-
-                <button type="button" onclick="generateApprovalReport()">Generate Approval Report</button>
-                <button type="button" id="copyApprovalButton" onclick="copyApprovalReport()" style="display:none;">Copy Report to Clipboard</button>
-            </form>
-
-            <div id="approvalOutput" class="report-output"></div>
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-app-card border-b border-white/5 z-40 md:hidden">
+        <div class="px-4 py-4 space-y-2 flex flex-col">
+            <a href="#nav" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Navigation</a>
+            <a href="#sadhana" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Sadhana</a>
+            <a href="#habits" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Habits & Wellness</a>
+            <a href="#media" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Media Library</a>
+            <a href="#community" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Community</a>
+            <a href="#tools" class="mobile-link text-sm font-medium hover:text-app-accent py-2 border-b border-white/5">Utility Tools</a>
+            <a href="#profile" class="mobile-link text-sm font-medium hover:text-app-accent py-2">Profile & Support</a>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Main Layout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="hidden md:block w-64 flex-shrink-0">
+            <div class="sticky top-24 space-y-1">
+                <p class="px-3 text-xs font-semibold text-app-muted uppercase tracking-wider mb-4">Content Guide</p>
+                <a href="#home" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="home" class="inline w-4 h-4 mr-2 mb-1"></i> Introduction</a>
+                <a href="#nav" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="layout-dashboard" class="inline w-4 h-4 mr-2 mb-1"></i> Architecture</a>
+                <a href="#sadhana" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="activity" class="inline w-4 h-4 mr-2 mb-1"></i> Daily Sadhana</a>
+                <a href="#habits" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="calendar-check" class="inline w-4 h-4 mr-2 mb-1"></i> Habits & Wellness</a>
+                <a href="#media" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="play-circle" class="inline w-4 h-4 mr-2 mb-1"></i> Media Library</a>
+                <a href="#community" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="users" class="inline w-4 h-4 mr-2 mb-1"></i> Community & Events</a>
+                <a href="#tools" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="wrench" class="inline w-4 h-4 mr-2 mb-1"></i> Utility Tools</a>
+                <a href="#profile" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-app-cardHover transition"><i data-lucide="user" class="inline w-4 h-4 mr-2 mb-1"></i> Profile & Donations</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 min-w-0 space-y-16">
+
+            <!-- Hero Section -->
+            <section id="home" class="scroll-mt-24">
+                <div class="bg-app-card rounded-3xl p-8 border border-white/5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                        <i data-lucide="flower-2" class="w-64 h-64 text-app-accent"></i>
+                    </div>
+                    <h1 class="text-4xl font-bold text-white mb-4 relative z-10">Welcome to Sansmaran</h1>
+                    <p class="text-lg text-app-muted leading-relaxed max-w-2xl relative z-10 mb-8">
+                        Your dedicated digital companion for spiritual growth, personal wellness, and mindful living. This manual is designed to guide you seamlessly through the app's diverse ecosystem.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
+                        <div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
+                                    <span>Track your daily spiritual disciplines (Sadhana).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
+                                    <span>Access a rich repository of media and scriptures.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
+                                    <span>Connect with community circles and volunteer.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-app-accent shrink-0"></i>
+                                    <span>Utilize specialized inner-growth and utility tools.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex justify-center">
+                            <img src="6248927354554094798.jpg" alt="Home Dashboard" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Home+Screen'">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 1: Navigation Architecture -->
+            <section id="nav">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="smartphone" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">The Navigation Architecture</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-6">
+                        <p class="text-app-muted">Sansmaran uses an intuitive, modern layout designed to keep your spiritual metrics clear and scannable.</p>
+                        
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2"><i data-lucide="menu" class="w-5 h-5 text-app-accent"></i> Global Sidebar Menu</h3>
+                            <p class="text-sm mb-4">Accessible via the hamburger icon (☰) on the top-left of the home page. It contains the exhaustive feature list.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">About Gurudev</span>
+                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Challenges</span>
+                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Clubs</span>
+                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Volunteering</span>
+                                <span class="bg-app-bg px-3 py-1 rounded-full text-xs font-medium">Tools</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5 text-app-accent"></i> Primary Bottom Navigation Bar</h3>
+                            <p class="text-sm mb-4">Your quick-access hubs to switch between core spaces instantly.</p>
+                            <p class="text-xs text-app-accent font-mono bg-app-bg p-3 rounded-lg text-center">
+                                Home | Habits | Media | Events | Forum | Shop | Profile
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="6248927354554094781.jpg" alt="Sidebar Navigation" class="screenshot max-h-[550px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Sidebar'">
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 2: Sadhana -->
+            <section id="sadhana">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="sun" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">1. Today's Practice & Daily Sadhana</h2>
+                </div>
+                
+                <p class="text-app-muted mb-8">Your primary workspace centers around tracking your spiritual disciplines. Sansmaran simplifies monitoring daily targets to keep you consistently connected to your goals.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="flex justify-center order-2 md:order-1">
+                         <img src="6248927354554094788.jpg" alt="Japa Tracker" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Japa+Tracker'">
+                    </div>
+                    <div class="space-y-6 order-1 md:order-2">
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">The Home Dashboard</h3>
+                            <ul class="space-y-3 text-sm">
+                                <li><strong class="text-app-accent">Personalized Greeting:</strong> Real-time greetings and scripture quotes.</li>
+                                <li><strong class="text-app-accent">Today's Sadhana:</strong> Total Japas logged against your target.</li>
+                                <li><strong class="text-app-accent">My Goals:</strong> Progress of your weekly target habits.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Tracking Japa & Routine</h3>
+                            <p class="text-sm mb-4">Tap "Daily Sadhana" on your home screen to open the counter page. Use the big [+] and [-] buttons for precision tracking (e.g., "On Mala 1, Bead 0 / 108").</p>
+                            <div class="border-t border-white/10 pt-4 mt-4">
+                                <h4 class="text-sm font-semibold mb-2">Today's Practice Checklist</h4>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Meditation</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Spiritual Reading</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Mantra Chanting</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-green-500"></i> Seva (Service)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 3: Habits & Wellness -->
+            <section id="habits">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="heart-pulse" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">2. Habit Formation & Physical Wellness</h2>
+                </div>
+                
+                <p class="text-app-muted mb-8">True spiritual wellness respects the integration of mind, spirit, and body. The Habits and Exercise panels keep your lifestyle rhythm balanced.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-3">Habits Tracker</h3>
+                            <p class="text-sm mb-4">Log essential traits on a recurring weekly timeline:</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>ध्यान (Meditation)</span> <i data-lucide="activity" class="w-4 h-4 text-app-muted"></i></li>
+                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>व्यायाम (Minimal Exercise)</span> <i data-lucide="dumbbell" class="w-4 h-4 text-app-muted"></i></li>
+                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>सात्त्विक आहार (Sattvic Diet)</span> <i data-lucide="apple" class="w-4 h-4 text-app-muted"></i></li>
+                                <li class="bg-app-bg p-2 rounded flex justify-between"><span>अखंड गुरुनाम (Guru Remembrance)</span> <i data-lucide="brain" class="w-4 h-4 text-app-muted"></i></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Body Metrics & Hydration</h3>
+                            <p class="text-sm mb-2"><strong class="text-app-accent">Yoga Mode:</strong> Tailored tracking for Guided Meditation, Yogasana, and Sukshma Yoga.</p>
+                            <p class="text-sm mb-2"><strong class="text-app-accent">BMI Calculator:</strong> Input weight and height to get your health index.</p>
+                            <p class="text-sm"><strong class="text-app-accent">Water Tracker:</strong> Quick instant logging buttons (+150ml, +250ml, +500ml) right on the home dashboard.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center relative">
+                        <img src="6248927354554094797.jpg" alt="Habits Tracker" class="screenshot max-h-[500px]" onerror="this.src='https://via.placeholder.com/300x600/291D16/FCA311?text=Habits'">
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 4: Media Library -->
+            <section id="media">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="headphones" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">3. Media Library & Audio Player</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="flex justify-center gap-4">
+                        <img src="6248927354554094799.jpg" alt="Media Library" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Media'">
+                        <img src="6248927354554094772.jpg" alt="Audio Player" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Player'">
+                    </div>
+                    <div class="space-y-6">
+                        <p class="text-app-muted">Access a local and cloud-based media deck providing easy access to spiritual discourses, visual texts, and deep listening collections.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
+                                <i data-lucide="music-4" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
+                                <h4 class="font-semibold text-sm">Audios</h4>
+                                <p class="text-xs text-app-muted mt-1">Serialized series & lectures</p>
+                            </div>
+                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
+                                <i data-lucide="book-open" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
+                                <h4 class="font-semibold text-sm">Literature</h4>
+                                <p class="text-xs text-app-muted mt-1">Core texts & readers</p>
+                            </div>
+                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
+                                <i data-lucide="image" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
+                                <h4 class="font-semibold text-sm">Visuals</h4>
+                                <p class="text-xs text-app-muted mt-1">Galleries & streaming</p>
+                            </div>
+                            <div class="bg-app-card p-4 rounded-xl text-center border border-white/5">
+                                <i data-lucide="folder-up" class="w-8 h-8 text-app-accent mx-auto mb-2"></i>
+                                <h4 class="font-semibold text-sm">My Files</h4>
+                                <p class="text-xs text-app-muted mt-1">Upload custom device files</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-app-card p-4 rounded-xl border border-white/5 mt-4">
+                            <h4 class="font-semibold text-white mb-2"><i data-lucide="play" class="inline w-4 h-4 text-app-accent mr-1"></i> Advanced Playback</h4>
+                            <p class="text-sm text-app-muted">Continuous background play, OS notification integration, speed modulators, 10-second skip, and endless loop toggles.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 5: Community -->
+            <section id="community">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="globe" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">4. Community Ecosystem & Events</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">The Forum</h3>
+                            <p class="text-sm mb-3">A multi-lingual global board (English, Marathi, Kannada) to share spiritual queries. Filter topics like Scriptures, Mantras, and Meditation.</p>
+                        </div>
+
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Circles (Clubs)</h3>
+                            <ul class="space-y-2 text-sm text-app-muted">
+                                <li><strong class="text-app-text">Bhajan & Nartan:</strong> Devotional singing/dance.</li>
+                                <li><strong class="text-app-text">Bodha Circle:</strong> Scriptural wisdom sharing.</li>
+                                <li><strong class="text-app-text">Namasmaran:</strong> Divine name chanting routines.</li>
+                                <li><strong class="text-app-text">Exercise Circle:</strong> Mutual movement goals.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Seva, Shop & Events</h3>
+                            <p class="text-sm mb-2">Register for community service (e.g. Temple Renovations). RSVP to upcoming spiritual festivals.</p>
+                            <p class="text-sm">Browse the <strong class="text-app-accent">Marketplace</strong> for spiritual literature, calendars, and Poojan materials.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center gap-4">
+                        <img src="6248927354554094782.jpg" alt="Clubs" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Clubs'">
+                        <img src="6248927354554094789.jpg" alt="Forum" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Forum'">
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 6: Tools -->
+            <section id="tools">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="compass" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">5. Utility Tools Panel</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="flex justify-center gap-4 order-2 md:order-1">
+                        <img src="6248927354554094776.jpg" alt="Pomodoro Timer" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Pomodoro'">
+                        <img src="6248927354554094773.jpg" alt="Compass" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Compass'">
+                    </div>
+                    <div class="space-y-6 order-1 md:order-2">
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                                <i data-lucide="timer" class="w-5 h-5 text-app-accent"></i> Pomodoro Focus Timer
+                            </h3>
+                            <p class="text-sm mb-4">A productivity system for spiritual studies or work.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
+                                    <span>Focus Block</span> <span class="text-app-accent">25 min</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
+                                    <span>Short Break</span> <span class="text-green-500">5 min</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-app-bg p-2 rounded">
+                                    <span>Long Break</span> <span class="text-blue-500">15 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                                <i data-lucide="navigation" class="w-5 h-5 text-app-accent"></i> Compass Pro & Calibration
+                            </h3>
+                            <p class="text-sm mb-3">High-accuracy tool for aligning toward cardinal directions for meditation or Pooja.</p>
+                            <div class="bg-app-bg p-3 rounded-lg border border-app-accent/20">
+                                <p class="text-xs font-semibold text-app-accent mb-2">💡 Calibration Steps:</p>
+                                <ol class="list-decimal list-inside text-xs space-y-1 text-app-muted">
+                                    <li>Clear magnetic interference.</li>
+                                    <li>Lay device flat, tilt 45° forward.</li>
+                                    <li>Move device in a continuous "8" shape in the air.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5">
+
+            <!-- Section 7: Profile & Security -->
+            <section id="profile">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-app-accent/20 p-2 rounded-lg"><i data-lucide="shield-check" class="w-6 h-6 text-app-accent"></i></div>
+                    <h2 class="text-2xl font-bold text-white">6. Profile, Security & Donations</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Personal Milestones</h3>
+                            <p class="text-sm text-app-muted mb-3">View your Unique Member ID, Devotee Tier, and gamified streaks tracking consecutive days and Leaderboard Points.</p>
+                        </div>
+                        
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5">
+                            <h3 class="text-lg font-semibold text-white mb-2">Security Preferences</h3>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center gap-3"><i data-lucide="moon" class="w-4 h-4 text-app-accent"></i> Dark Mode Toggle</li>
+                                <li class="flex items-center gap-3"><i data-lucide="fingerprint" class="w-4 h-4 text-app-accent"></i> Biometric Login & App Lock</li>
+                                <li class="flex items-center gap-3"><i data-lucide="download" class="w-4 h-4 text-app-accent"></i> Export Data Backup</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-app-card p-6 rounded-2xl border border-white/5 border-l-4 border-l-app-accent">
+                            <h3 class="text-lg font-semibold text-white mb-2">Supporting the Ecosystem</h3>
+                            <p class="text-sm text-app-muted mb-3">Fund ongoing maintenance, Guru Dakshina, or General Operations.</p>
+                            <p class="text-sm"><strong class="text-app-text">Digital (UPI/QR):</strong> Direct copying for handles.</p>
+                            <p class="text-sm"><strong class="text-app-text">Cash Processing:</strong> Record manual transactions for admin verification.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center gap-4">
+                        <img src="6248927354554094791.jpg" alt="Profile" class="screenshot max-h-[400px] w-auto" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Profile'">
+                        <img src="6248927354554094778.jpg" alt="Donate" class="screenshot max-h-[400px] w-auto hidden lg:block" onerror="this.src='https://via.placeholder.com/250x500/291D16/FCA311?text=Donate'">
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-app-card border-t border-white/5 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-2 mb-4">
+                <i data-lucide="flower-2" class="w-5 h-5 text-app-accent"></i>
+                <span class="font-bold text-white tracking-wide">Sansmaran</span>
+            </div>
+            <p class="text-sm text-app-muted">Spiritual Wellness App User Manual &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons & Mobile Menu Script -->
+    <script>
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
